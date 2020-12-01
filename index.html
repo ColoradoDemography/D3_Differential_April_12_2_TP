@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>CD 113 DP</title>
+    <title>Colorado Legislature DP</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     
     <!-- Load Leaflet from CDN -->
@@ -15,7 +15,18 @@
     <script type="text/javascript" src="https://d3js.org/d3.v5.min.js"></script>
 
   <!-- Load geojson file from https://github.com/Tejaswini21nalla/LeafletMap -->
-  <script src="js/cd113districts.js"></script>
+    <script src="js/cd.js"></script>
+    <script src="js/sldl.js"></script>
+    <script src="js/sldu.js"></script>
+    <!--<script src="js/cd_data.js"></script>
+    <script src="js/sldl_data.js"></script>
+    <script src="js/sldu_data.js"></script>
+    <script src="js/cd_sf1.js"></script>
+    <script src="js/sldl_sf1.js"></script>
+    <script src="js/sldu_sf1.js"></script>
+    <script src="js/cd_dp.js"></script>
+    <script src="js/sldl_dp.js"></script>
+    <script src="js/sldu_dp.js"></script>
   <!-- <script src="shapefiles/tl_2012_06_sldl.js"></script> -->
 
     <style>
@@ -37,7 +48,7 @@
         z-index: 1000;
         position: absolute;
         width: 15%;
-        top: 17%;
+        top: 20%;
         left: 22%;
       }
 
@@ -50,6 +61,15 @@
         text-align: right;
       }
 
+      #pullDownGeo {
+        z-index: 1000;
+        /* position: absolute; 
+        width: 15%;*/
+        top: 5%;
+        left:100%;
+        text-align: right;
+      }
+        
       #header{
         color: #BDBDBD;
         text-align: center;
@@ -124,11 +144,21 @@
   </head>
   <body>
   <div id='top'>
-    <h3 id="header">Differential Privacy (11/16 Flight) and 2010 Census Summary File 1: Colorado 116th Congressional Districts</h3>
+    <h3 id="header">Differential Privacy (11/16 Flight) and 2010 Census Summary File 1: Colorado Districts</h3>
   </div>
 
   <div class='row'>
     <div id="mapContainer" class = 'column left'>
+      <div id="pullDownGeo">
+        <p style="margin-bottom: 0; color: #BDBDBD; ">Districts</p>
+        <div class=menu >
+            <select name="distType" id="districtType"> 
+                <option value="cd">Congressional</option>
+                <option value="sldu">State Senate</option>
+                <option value="sldl">State House</option>
+            </select> 
+        </div> 
+      </div>
       <div id="pullDown">
         <p style="margin-bottom: 0; color: #BDBDBD; ">Race/Ethnicity</p>
         <div class=menu >
@@ -147,7 +177,7 @@
       </div>
       <div id='map'></div>
       <div id="mapLabel">
-        <p style="color: #BDBDBD; font-size: 12px;">Click on a district to view the population distribution by race/ethnicity for that district. Click outside the Colorado map to reset the map and view the state-wide race/ethnicity distribution.</p>
+        <p style="color: #BDBDBD; font-size: 12px;">Click on a district to view the population distribution by race/ethnicity for that district. Click outside the Colorado map to reset.</p>
       </div>
     </div>
 
@@ -166,277 +196,712 @@
   </div>
 
     <script>
+        
+        //***********************************************data*************************************
+        
+var cd_data = [
+ {
+   dist: '01',   chg: 264,   hisp: -144,   whitenh: 140,   blacknh: -264,   aiannh: 102,   asiannh: 232,   nhopinh: 102,   othernh: -49,   twoplusnh: 145
+ }, {
+   dist: '02',   chg: 11,   hisp: 120,   whitenh: 275,   blacknh: -83,   aiannh: -272,   asiannh: 191,   nhopinh: -35,   othernh: -24,   twoplusnh: -161
+ }, {
+   dist: '03',   chg: 27,   hisp: -44,   whitenh: -49,   blacknh: 25,   aiannh: -3,   asiannh: -107,   nhopinh: -7,   othernh: 27,   twoplusnh: 185
+ }, {
+   dist: '04',   chg: 62,   hisp: -250,   whitenh: -44,   blacknh: 192,   aiannh: -16,   asiannh: -120,   nhopinh: 18,   othernh: -38,   twoplusnh: 320
+ }, {
+   dist: '05',   chg: -20,   hisp: -127,   whitenh: -110,   blacknh: 86,   aiannh: 84,   asiannh: 85,   nhopinh: 1,   othernh: 13,   twoplusnh: -52
+ }, {
+   dist: '06',   chg: -297,   hisp: 105,   whitenh: 109,   blacknh: 201,   aiannh: 121,   asiannh: -540,   nhopinh: -23,   othernh: 87,   twoplusnh: -357
+ }, {
+   dist: '07',   chg: -108,   hisp: 75,   whitenh: -349,   blacknh: -78,   aiannh: -79,   asiannh: 231,   nhopinh: 21,   othernh: -3,   twoplusnh: 74
+ }
+];
+        
+var cd_sf1 = [
+ {
+   dist: '01',   hisp: 135691,   whitenh: 349931,   blacknh: 44985,   aiannh: 3243,   asiannh: 18143,   nhopinh: 444,   othernh: 965,   twoplusnh: 8870
+ }, {
+   dist: '02',   hisp: 46278,   whitenh: 491467,   blacknh: 4084,   aiannh: 2070,   asiannh: 15494,   nhopinh: 345,   othernh: 650,   twoplusnh: 7003
+ }, {
+   dist: '03',   hisp: 113102,   whitenh: 414881,   blacknh: 3818,   aiannh: 6825,   asiannh: 3668,   nhopinh: 370,   othernh: 639,   twoplusnh: 5812
+ }, {
+   dist: '04',   hisp: 94966,   whitenh: 404202,   blacknh: 6995,   aiannh: 2892,   asiannh: 8665,   nhopinh: 307,   othernh: 533,   twoplusnh: 5279
+ }, {
+   dist: '05',   hisp: 64846,   whitenh: 414862,   blacknh: 28043,   aiannh: 3661,   asiannh: 13485,   nhopinh: 1376,   othernh: 740,   twoplusnh: 11387
+ }, {
+   dist: '06',   hisp: 86938,   whitenh: 350260,   blacknh: 43832,   aiannh: 2138,   asiannh: 26787,   nhopinh: 818,   othernh: 659,   twoplusnh: 8726
+ }, {
+   dist: '07',   hisp: 122641,   whitenh: 384910,   blacknh: 7054,   aiannh: 3117,   asiannh: 17097,   nhopinh: 444,   othernh: 664,   twoplusnh: 6485
+ }, {
+   dist: 'CO',   hisp: 664462,   whitenh: 2810513,   blacknh: 138811,   aiannh: 23946,   asiannh: 103339,   nhopinh: 4104,   othernh: 4850,   twoplusnh: 53562
+ }
+];
+        
+ var cd_dp = [
+ {
+   dist: '01',   hisp: 135547,   whitenh: 350071,   blacknh: 44721,   aiannh: 3345,   asiannh: 18375,   nhopinh: 546,   othernh: 916,   twoplusnh: 9015
+ }, {
+   dist: '02',   hisp: 46398,   whitenh: 491742,   blacknh: 4001,   aiannh: 1798,   asiannh: 15685,   nhopinh: 310,   othernh: 626,   twoplusnh: 6842
+ }, {
+   dist: '03',   hisp: 113058,   whitenh: 414832,   blacknh: 3843,   aiannh: 6822,   asiannh: 3561,   nhopinh: 363,   othernh: 666,   twoplusnh: 5997
+ }, {
+   dist: '04',   hisp: 94716,   whitenh: 404158,   blacknh: 7187,   aiannh: 2876,   asiannh: 8545,   nhopinh: 325,   othernh: 495,   twoplusnh: 5599
+ }, {
+   dist: '05',   hisp: 64719,   whitenh: 414752,   blacknh: 28129,   aiannh: 3745,   asiannh: 13570,   nhopinh: 1377,   othernh: 753,   twoplusnh: 11335
+ }, {
+   dist: '06',   hisp: 87043,   whitenh: 350369,   blacknh: 44033,   aiannh: 2259,   asiannh: 26247,   nhopinh: 795,   othernh: 746,   twoplusnh: 8369
+ }, {
+   dist: '07',   hisp: 122716,   whitenh: 384561,   blacknh: 6976,   aiannh: 3038,   asiannh: 17328,   nhopinh: 465,   othernh: 661,   twoplusnh: 6559
+ }, {
+   dist: 'CO',   hisp: 664197,   whitenh: 2810485,   blacknh: 138890,   aiannh: 23883,   asiannh: 103311,   nhopinh: 4181,   othernh: 4863,   twoplusnh: 53716
+ }
+];
 
+ var sldu_data = [
+ {
+   dist: '1',   chg: -86,   hisp: -44,   whitenh: 38,   blacknh: -23,   aiannh: 131,   asiannh: -178,   nhopinh: 25,   othernh: -4,   twoplusnh: -31
+ }, {
+   dist: '2',   chg: -244,   hisp: 190,   whitenh: -452,   blacknh: 3,   aiannh: 101,   asiannh: 99,   nhopinh: -104,   othernh: 61,   twoplusnh: -142
+ }, {
+   dist: '3',   chg: 19,   hisp: 145,   whitenh: -38,   blacknh: -22,   aiannh: 18,   asiannh: 43,   nhopinh: 25,   othernh: -92,   twoplusnh: -60
+ }, {
+   dist: '4',   chg: 69,   hisp: 58,   whitenh: 147,   blacknh: 27,   aiannh: 57,   asiannh: -138,   nhopinh: -55,   othernh: -45,   twoplusnh: 18
+ }, {
+   dist: '5',   chg: 108,   hisp: -159,   whitenh: 222,   blacknh: -55,   aiannh: -140,   asiannh: 95,   nhopinh: -35,   othernh: 187,   twoplusnh: -7
+ }, {
+   dist: '6',   chg: -16,   hisp: -152,   whitenh: -21,   blacknh: -67,   aiannh: 195,   asiannh: -67,   nhopinh: 85,   othernh: -25,   twoplusnh: 36
+ }, {
+   dist: '7',   chg: -12,   hisp: 50,   whitenh: 16,   blacknh: -40,   aiannh: -14,   asiannh: 57,   nhopinh: -58,   othernh: -16,   twoplusnh: -7
+ }, {
+   dist: '8',   chg: -14,   hisp: 113,   whitenh: -44,   blacknh: 19,   aiannh: -8,   asiannh: -102,   nhopinh: -56,   othernh: -5,   twoplusnh: 69
+ }, {
+   dist: '9',   chg: 163,   hisp: -48,   whitenh: 409,   blacknh: -345,   aiannh: 81,   asiannh: 100,   nhopinh: 39,   othernh: -79,   twoplusnh: 6
+ }, {
+   dist: '10',   chg: -63,   hisp: 447,   whitenh: -144,   blacknh: -222,   aiannh: -88,   asiannh: 150,   nhopinh: -31,   othernh: -39,   twoplusnh: -136
+ }, {
+   dist: '11',   chg: -144,   hisp: -702,   whitenh: 158,   blacknh: 284,   aiannh: -25,   asiannh: 54,   nhopinh: 16,   othernh: 20,   twoplusnh: 51
+ }, {
+   dist: '12',   chg: 305,   hisp: 136,   whitenh: -24,   blacknh: 341,   aiannh: 4,   asiannh: -374,   nhopinh: 86,   othernh: -14,   twoplusnh: 150
+ }, {
+   dist: '13',   chg: 113,   hisp: 208,   whitenh: -209,   blacknh: -81,   aiannh: 46,   asiannh: 109,   nhopinh: 32,   othernh: -13,   twoplusnh: 21
+ }, {
+   dist: '14',   chg: 198,   hisp: 184,   whitenh: -234,   blacknh: 28,   aiannh: 18,   asiannh: 198,   nhopinh: -39,   othernh: 12,   twoplusnh: 31
+ }, {
+   dist: '15',   chg: -275,   hisp: -227,   whitenh: -22,   blacknh: 44,   aiannh: -80,   asiannh: -120,   nhopinh: 57,   othernh: 0,   twoplusnh: 73
+ }, {
+   dist: '16',   chg: -331,   hisp: -176,   whitenh: -696,   blacknh: 155,   aiannh: 128,   asiannh: 156,   nhopinh: 31,   othernh: 54,   twoplusnh: 17
+ }, {
+   dist: '17',   chg: 91,   hisp: -86,   whitenh: -15,   blacknh: 147,   aiannh: -10,   asiannh: -50,   nhopinh: 3,   othernh: 41,   twoplusnh: 61
+ }, {
+   dist: '18',   chg: -35,   hisp: 200,   whitenh: -98,   blacknh: -128,   aiannh: -67,   asiannh: 106,   nhopinh: -41,   othernh: 36,   twoplusnh: -43
+ }, {
+   dist: '19',   chg: 50,   hisp: -33,   whitenh: -471,   blacknh: 97,   aiannh: 31,   asiannh: 171,   nhopinh: 19,   othernh: 74,   twoplusnh: 162
+ }, {
+   dist: '20',   chg: 222,   hisp: 141,   whitenh: 815,   blacknh: -137,   aiannh: -59,   asiannh: -329,   nhopinh: -19,   othernh: -35,   twoplusnh: -155
+ }, {
+   dist: '21',   chg: 10,   hisp: -53,   whitenh: 448,   blacknh: -297,   aiannh: -113,   asiannh: 74,   nhopinh: 79,   othernh: -64,   twoplusnh: -64
+ }, {
+   dist: '22',   chg: -29,   hisp: 20,   whitenh: 20,   blacknh: -61,   aiannh: 86,   asiannh: -16,   nhopinh: -23,   othernh: -49,   twoplusnh: -6
+ }, {
+   dist: '23',   chg: -49,   hisp: -310,   whitenh: 446,   blacknh: 80,   aiannh: -54,   asiannh: -8,   nhopinh: -6,   othernh: -80,   twoplusnh: -117
+ }, {
+   dist: '24',   chg: 123,   hisp: 14,   whitenh: -392,   blacknh: 112,   aiannh: 29,   asiannh: 228,   nhopinh: -15,   othernh: 49,   twoplusnh: 98
+ }, {
+   dist: '25',   chg: -120,   hisp: -68,   whitenh: -69,   blacknh: 216,   aiannh: 15,   asiannh: -249,   nhopinh: -68,   othernh: 91,   twoplusnh: 12
+ }, {
+   dist: '26',   chg: 57,   hisp: 69,   whitenh: 228,   blacknh: -466,   aiannh: 24,   asiannh: 213,   nhopinh: 63,   othernh: -61,   twoplusnh: -13
+ }, {
+   dist: '27',   chg: -204,   hisp: -96,   whitenh: -483,   blacknh: 64,   aiannh: 70,   asiannh: 232,   nhopinh: 29,   othernh: 49,   twoplusnh: -69
+ }, {
+   dist: '28',   chg: 68,   hisp: -315,   whitenh: 155,   blacknh: -80,   aiannh: -57,   asiannh: 301,   nhopinh: -45,   othernh: 107,   twoplusnh: 2
+ }, {
+   dist: '29',   chg: -23,   hisp: 280,   whitenh: 249,   blacknh: 363,   aiannh: 35,   asiannh: -803,   nhopinh: -56,   othernh: -84,   twoplusnh: -7
+ }, {
+   dist: '30',   chg: -51,   hisp: -61,   whitenh: -99,   blacknh: -9,   aiannh: -36,   asiannh: 88,   nhopinh: 22,   othernh: 25,   twoplusnh: 19
+ }, {
+   dist: '31',   chg: 239,   hisp: 75,   whitenh: 427,   blacknh: -5,   aiannh: -134,   asiannh: -301,   nhopinh: 52,   othernh: 59,   twoplusnh: 66
+ }, {
+   dist: '32',   chg: 11,   hisp: -57,   whitenh: 202,   blacknh: -510,   aiannh: 102,   asiannh: 273,   nhopinh: 26,   othernh: 20,   twoplusnh: -45
+ }, {
+   dist: '33',   chg: -68,   hisp: -60,   whitenh: -525,   blacknh: 667,   aiannh: -67,   asiannh: 2,   nhopinh: -3,   othernh: -42,   twoplusnh: -40
+ }, {
+   dist: '34',   chg: -51,   hisp: 19,   whitenh: 122,   blacknh: -181,   aiannh: 43,   asiannh: 80,   nhopinh: 11,   othernh: -174,   twoplusnh: 29
+ }, {
+   dist: '35',   chg: -92,   hisp: 33,   whitenh: -94,   blacknh: 161,   aiannh: -325,   asiannh: -122,   nhopinh: 31,   othernh: 49,   twoplusnh: 175
+ }
+];
+        
+        var sldu_sf1 = [
+ {
+   dist: '1',   hisp: 16733,   whitenh: 86849,   blacknh: 2109,   aiannh: 919,   asiannh: 569,   nhopinh: 65,   othernh: 71,   twoplusnh: 862
+ }, {
+   dist: '2',   hisp: 10416,   whitenh: 94091,   blacknh: 3923,   aiannh: 1177,   asiannh: 1047,   nhopinh: 212,   othernh: 95,   twoplusnh: 1755
+ }, {
+   dist: '3',   hisp: 41823,   whitenh: 58549,   blacknh: 2041,   aiannh: 674,   asiannh: 844,   nhopinh: 77,   othernh: 164,   twoplusnh: 1179
+ }, {
+   dist: '4',   hisp: 6491,   whitenh: 87924,   blacknh: 1117,   aiannh: 331,   asiannh: 2135,   nhopinh: 76,   othernh: 103,   twoplusnh: 1154
+ }, {
+   dist: '5',   hisp: 17996,   whitenh: 89995,   blacknh: 712,   aiannh: 483,   asiannh: 870,   nhopinh: 46,   othernh: 140,   twoplusnh: 933
+ }, {
+   dist: '6',   hisp: 12965,   whitenh: 93191,   blacknh: 297,   aiannh: 4266,   asiannh: 613,   nhopinh: 60,   othernh: 121,   twoplusnh: 1342
+ }, {
+   dist: '7',   hisp: 12261,   whitenh: 96336,   blacknh: 574,   aiannh: 707,   asiannh: 838,   nhopinh: 121,   othernh: 85,   twoplusnh: 1284
+ }, {
+   dist: '8',   hisp: 15978,   whitenh: 92001,   blacknh: 535,   aiannh: 480,   asiannh: 774,   nhopinh: 67,   othernh: 106,   twoplusnh: 1008
+ }, {
+   dist: '9',   hisp: 6829,   whitenh: 90719,   blacknh: 2321,   aiannh: 430,   asiannh: 3370,   nhopinh: 108,   othernh: 149,   twoplusnh: 1914
+ }, {
+   dist: '10',   hisp: 12088,   whitenh: 84977,   blacknh: 4727,   aiannh: 631,   asiannh: 3264,   nhopinh: 216,   othernh: 158,   twoplusnh: 2373
+ }, {
+   dist: '11',   hisp: 22572,   whitenh: 67157,   blacknh: 10032,   aiannh: 812,   asiannh: 2479,   nhopinh: 350,   othernh: 173,   twoplusnh: 2917
+ }, {
+   dist: '12',   hisp: 12171,   whitenh: 77853,   blacknh: 6857,   aiannh: 583,   asiannh: 3327,   nhopinh: 488,   othernh: 167,   twoplusnh: 2457
+ }, {
+   dist: '13',   hisp: 33519,   whitenh: 67403,   blacknh: 1187,   aiannh: 493,   asiannh: 1207,   nhopinh: 77,   othernh: 152,   twoplusnh: 1106
+ }, {
+   dist: '14',   hisp: 10315,   whitenh: 100003,   blacknh: 1263,   aiannh: 447,   asiannh: 3247,   nhopinh: 104,   othernh: 150,   twoplusnh: 1904
+ }, {
+   dist: '15',   hisp: 9234,   whitenh: 97015,   blacknh: 392,   aiannh: 478,   asiannh: 948,   nhopinh: 54,   othernh: 83,   twoplusnh: 1030
+ }, {
+   dist: '16',   hisp: 9966,   whitenh: 98470,   blacknh: 826,   aiannh: 443,   asiannh: 3750,   nhopinh: 67,   othernh: 131,   twoplusnh: 1231
+ }, {
+   dist: '17',   hisp: 17238,   whitenh: 80392,   blacknh: 775,   aiannh: 479,   asiannh: 3495,   nhopinh: 44,   othernh: 114,   twoplusnh: 1117
+ }, {
+   dist: '18',   hisp: 7331,   whitenh: 102801,   blacknh: 940,   aiannh: 337,   asiannh: 4626,   nhopinh: 71,   othernh: 187,   twoplusnh: 1808
+ }, {
+   dist: '19',   hisp: 12620,   whitenh: 89820,   blacknh: 882,   aiannh: 444,   asiannh: 2982,   nhopinh: 70,   othernh: 110,   twoplusnh: 1272
+ }, {
+   dist: '20',   hisp: 12111,   whitenh: 97398,   blacknh: 966,   aiannh: 584,   asiannh: 2631,   nhopinh: 97,   othernh: 106,   twoplusnh: 1287
+ }, {
+   dist: '21',   hisp: 45661,   whitenh: 51188,   blacknh: 1739,   aiannh: 719,   asiannh: 3326,   nhopinh: 93,   othernh: 155,   twoplusnh: 1158
+ }, {
+   dist: '22',   hisp: 21217,   whitenh: 85401,   blacknh: 1479,   aiannh: 702,   asiannh: 3361,   nhopinh: 91,   othernh: 144,   twoplusnh: 1331
+ }, {
+   dist: '23',   hisp: 11090,   whitenh: 86567,   blacknh: 651,   aiannh: 416,   asiannh: 3434,   nhopinh: 51,   othernh: 93,   twoplusnh: 1115
+ }, {
+   dist: '24',   hisp: 21548,   whitenh: 78129,   blacknh: 1639,   aiannh: 553,   asiannh: 4837,   nhopinh: 89,   othernh: 145,   twoplusnh: 1365
+ }, {
+   dist: '25',   hisp: 37176,   whitenh: 55275,   blacknh: 5334,   aiannh: 611,   asiannh: 3131,   nhopinh: 157,   othernh: 113,   twoplusnh: 1339
+ }, {
+   dist: '26',   hisp: 13787,   whitenh: 85049,   blacknh: 6708,   aiannh: 590,   asiannh: 4223,   nhopinh: 89,   othernh: 177,   twoplusnh: 1785
+ }, {
+   dist: '27',   hisp: 7006,   whitenh: 84381,   blacknh: 3727,   aiannh: 284,   asiannh: 6204,   nhopinh: 103,   othernh: 89,   twoplusnh: 1452
+ }, {
+   dist: '28',   hisp: 15237,   whitenh: 65386,   blacknh: 12233,   aiannh: 429,   asiannh: 6442,   nhopinh: 229,   othernh: 157,   twoplusnh: 2150
+ }, {
+   dist: '29',   hisp: 27979,   whitenh: 49389,   blacknh: 16341,   aiannh: 534,   asiannh: 4373,   nhopinh: 285,   othernh: 138,   twoplusnh: 2129
+ }, {
+   dist: '30',   hisp: 6327,   whitenh: 84747,   blacknh: 1191,   aiannh: 265,   asiannh: 5206,   nhopinh: 52,   othernh: 105,   twoplusnh: 1229
+ }, {
+   dist: '31',   hisp: 14109,   whitenh: 91891,   blacknh: 10543,   aiannh: 546,   asiannh: 4889,   nhopinh: 90,   othernh: 256,   twoplusnh: 2348
+ }, {
+   dist: '32',   hisp: 30707,   whitenh: 76936,   blacknh: 2311,   aiannh: 666,   asiannh: 4239,   nhopinh: 77,   othernh: 184,   twoplusnh: 1456
+ }, {
+   dist: '33',   hisp: 29506,   whitenh: 41193,   blacknh: 27495,   aiannh: 572,   asiannh: 3438,   nhopinh: 124,   othernh: 188,   twoplusnh: 2378
+ }, {
+   dist: '34',   hisp: 46809,   whitenh: 53466,   blacknh: 3337,   aiannh: 934,   asiannh: 2619,   nhopinh: 68,   othernh: 205,   twoplusnh: 1409
+ }, {
+   dist: '35',   hisp: 35646,   whitenh: 68571,   blacknh: 1607,   aiannh: 927,   asiannh: 601,   nhopinh: 36,   othernh: 136,   twoplusnh: 985
+ }, {
+   dist: 'CO',   hisp: 664462,   whitenh: 2810513,   blacknh: 138811,   aiannh: 23946,   asiannh: 103339,   nhopinh: 4104,   othernh: 4850,   twoplusnh: 53562
+ }
+];
+        
+        var sldu_dp = [
+ {
+   dist: '1',   hisp: 16689,   whitenh: 86887,   blacknh: 2086,   aiannh: 1050,   asiannh: 391,   nhopinh: 90,   othernh: 67,   twoplusnh: 831
+ }, {
+   dist: '2',   hisp: 10606,   whitenh: 93639,   blacknh: 3926,   aiannh: 1278,   asiannh: 1146,   nhopinh: 108,   othernh: 156,   twoplusnh: 1613
+ }, {
+   dist: '3',   hisp: 41968,   whitenh: 58511,   blacknh: 2019,   aiannh: 692,   asiannh: 887,   nhopinh: 102,   othernh: 72,   twoplusnh: 1119
+ }, {
+   dist: '4',   hisp: 6549,   whitenh: 88071,   blacknh: 1144,   aiannh: 388,   asiannh: 1997,   nhopinh: 21,   othernh: 58,   twoplusnh: 1172
+ }, {
+   dist: '5',   hisp: 17837,   whitenh: 90217,   blacknh: 657,   aiannh: 343,   asiannh: 965,   nhopinh: 11,   othernh: 327,   twoplusnh: 926
+ }, {
+   dist: '6',   hisp: 12813,   whitenh: 93170,   blacknh: 230,   aiannh: 4461,   asiannh: 546,   nhopinh: 145,   othernh: 96,   twoplusnh: 1378
+ }, {
+   dist: '7',   hisp: 12311,   whitenh: 96352,   blacknh: 534,   aiannh: 693,   asiannh: 895,   nhopinh: 63,   othernh: 69,   twoplusnh: 1277
+ }, {
+   dist: '8',   hisp: 16091,   whitenh: 91957,   blacknh: 554,   aiannh: 472,   asiannh: 672,   nhopinh: 11,   othernh: 101,   twoplusnh: 1077
+ }, {
+   dist: '9',   hisp: 6781,   whitenh: 91128,   blacknh: 1976,   aiannh: 511,   asiannh: 3470,   nhopinh: 147,   othernh: 70,   twoplusnh: 1920
+ }, {
+   dist: '10',   hisp: 12535,   whitenh: 84833,   blacknh: 4505,   aiannh: 543,   asiannh: 3414,   nhopinh: 185,   othernh: 119,   twoplusnh: 2237
+ }, {
+   dist: '11',   hisp: 21870,   whitenh: 67315,   blacknh: 10316,   aiannh: 787,   asiannh: 2533,   nhopinh: 366,   othernh: 193,   twoplusnh: 2968
+ }, {
+   dist: '12',   hisp: 12307,   whitenh: 77829,   blacknh: 7198,   aiannh: 587,   asiannh: 2953,   nhopinh: 574,   othernh: 153,   twoplusnh: 2607
+ }, {
+   dist: '13',   hisp: 33727,   whitenh: 67194,   blacknh: 1106,   aiannh: 539,   asiannh: 1316,   nhopinh: 109,   othernh: 139,   twoplusnh: 1127
+ }, {
+   dist: '14',   hisp: 10499,   whitenh: 99769,   blacknh: 1291,   aiannh: 465,   asiannh: 3445,   nhopinh: 65,   othernh: 162,   twoplusnh: 1935
+ }, {
+   dist: '15',   hisp: 9007,   whitenh: 96993,   blacknh: 436,   aiannh: 398,   asiannh: 828,   nhopinh: 111,   othernh: 83,   twoplusnh: 1103
+ }, {
+   dist: '16',   hisp: 9790,   whitenh: 97774,   blacknh: 981,   aiannh: 571,   asiannh: 3906,   nhopinh: 98,   othernh: 185,   twoplusnh: 1248
+ }, {
+   dist: '17',   hisp: 17152,   whitenh: 80377,   blacknh: 922,   aiannh: 469,   asiannh: 3445,   nhopinh: 47,   othernh: 155,   twoplusnh: 1178
+ }, {
+   dist: '18',   hisp: 7531,   whitenh: 102703,   blacknh: 812,   aiannh: 270,   asiannh: 4732,   nhopinh: 30,   othernh: 223,   twoplusnh: 1765
+ }, {
+   dist: '19',   hisp: 12587,   whitenh: 89349,   blacknh: 979,   aiannh: 475,   asiannh: 3153,   nhopinh: 89,   othernh: 184,   twoplusnh: 1434
+ }, {
+   dist: '20',   hisp: 12252,   whitenh: 98213,   blacknh: 829,   aiannh: 525,   asiannh: 2302,   nhopinh: 78,   othernh: 71,   twoplusnh: 1132
+ }, {
+   dist: '21',   hisp: 45608,   whitenh: 51636,   blacknh: 1442,   aiannh: 606,   asiannh: 3400,   nhopinh: 172,   othernh: 91,   twoplusnh: 1094
+ }, {
+   dist: '22',   hisp: 21237,   whitenh: 85421,   blacknh: 1418,   aiannh: 788,   asiannh: 3345,   nhopinh: 68,   othernh: 95,   twoplusnh: 1325
+ }, {
+   dist: '23',   hisp: 10780,   whitenh: 87013,   blacknh: 731,   aiannh: 362,   asiannh: 3426,   nhopinh: 45,   othernh: 13,   twoplusnh: 998
+ }, {
+   dist: '24',   hisp: 21562,   whitenh: 77737,   blacknh: 1751,   aiannh: 582,   asiannh: 5065,   nhopinh: 74,   othernh: 194,   twoplusnh: 1463
+ }, {
+   dist: '25',   hisp: 37108,   whitenh: 55206,   blacknh: 5550,   aiannh: 626,   asiannh: 2882,   nhopinh: 89,   othernh: 204,   twoplusnh: 1351
+ }, {
+   dist: '26',   hisp: 13856,   whitenh: 85277,   blacknh: 6242,   aiannh: 614,   asiannh: 4436,   nhopinh: 152,   othernh: 116,   twoplusnh: 1772
+ }, {
+   dist: '27',   hisp: 6910,   whitenh: 83898,   blacknh: 3791,   aiannh: 354,   asiannh: 6436,   nhopinh: 132,   othernh: 138,   twoplusnh: 1383
+ }, {
+   dist: '28',   hisp: 14922,   whitenh: 65541,   blacknh: 12153,   aiannh: 372,   asiannh: 6743,   nhopinh: 184,   othernh: 264,   twoplusnh: 2152
+ }, {
+   dist: '29',   hisp: 28259,   whitenh: 49638,   blacknh: 16704,   aiannh: 569,   asiannh: 3570,   nhopinh: 229,   othernh: 54,   twoplusnh: 2122
+ }, {
+   dist: '30',   hisp: 6266,   whitenh: 84648,   blacknh: 1182,   aiannh: 229,   asiannh: 5294,   nhopinh: 74,   othernh: 130,   twoplusnh: 1248
+ }, {
+   dist: '31',   hisp: 14184,   whitenh: 92318,   blacknh: 10538,   aiannh: 412,   asiannh: 4588,   nhopinh: 142,   othernh: 315,   twoplusnh: 2414
+ }, {
+   dist: '32',   hisp: 30650,   whitenh: 77138,   blacknh: 1801,   aiannh: 768,   asiannh: 4512,   nhopinh: 103,   othernh: 204,   twoplusnh: 1411
+ }, {
+   dist: '33',   hisp: 29446,   whitenh: 40668,   blacknh: 28162,   aiannh: 505,   asiannh: 3440,   nhopinh: 121,   othernh: 146,   twoplusnh: 2338
+ }, {
+   dist: '34',   hisp: 46828,   whitenh: 53588,   blacknh: 3156,   aiannh: 977,   asiannh: 2699,   nhopinh: 79,   othernh: 31,   twoplusnh: 1438
+ }, {
+   dist: '35',   hisp: 35679,   whitenh: 68477,   blacknh: 1768,   aiannh: 602,   asiannh: 479,   nhopinh: 67,   othernh: 185,   twoplusnh: 1160
+ }, {
+   dist: 'CO',   hisp: 664197,   whitenh: 2810485,   blacknh: 138890,   aiannh: 23883,   asiannh: 103311,   nhopinh: 4181,   othernh: 4863,   twoplusnh: 53716
+ }
+];
+        
+        var sldl_data = [
+ {
+   dist: '1',   chg: -158,   hisp: 80,   whitenh: -373,   blacknh: -62,   aiannh: 171,   asiannh: 13,   nhopinh: -24,   othernh: 36,   twoplusnh: 1
+ }, {
+   dist: '2',   chg: 46,   hisp: -261,   whitenh: 518,   blacknh: -265,   aiannh: 22,   asiannh: 25,   nhopinh: 34,   othernh: -8,   twoplusnh: -19
+ }, {
+   dist: '3',   chg: -61,   hisp: -38,   whitenh: -13,   blacknh: -173,   aiannh: -19,   asiannh: 90,   nhopinh: 19,   othernh: -24,   twoplusnh: 97
+ }, {
+   dist: '4',   chg: -42,   hisp: -18,   whitenh: -28,   blacknh: 42,   aiannh: 125,   asiannh: 40,   nhopinh: 35,   othernh: -112,   twoplusnh: -126
+ }, {
+   dist: '5',   chg: 277,   hisp: 137,   whitenh: 99,   blacknh: -215,   aiannh: -21,   asiannh: 170,   nhopinh: -22,   othernh: -76,   twoplusnh: 205
+ }, {
+   dist: '6',   chg: -221,   hisp: 92,   whitenh: -261,   blacknh: 3,   aiannh: -28,   asiannh: 12,   nhopinh: -22,   othernh: 8,   twoplusnh: -25
+ }, {
+   dist: '7',   chg: 59,   hisp: 14,   whitenh: -326,   blacknh: 256,   aiannh: -74,   asiannh: 164,   nhopinh: -12,   othernh: -66,   twoplusnh: 103
+ }, {
+   dist: '8',   chg: -107,   hisp: -126,   whitenh: -200,   blacknh: 385,   aiannh: -31,   asiannh: -195,   nhopinh: 47,   othernh: 48,   twoplusnh: -35
+ }, {
+   dist: '9',   chg: 249,   hisp: 166,   whitenh: 442,   blacknh: -165,   aiannh: -80,   asiannh: -191,   nhopinh: 36,   othernh: 101,   twoplusnh: -60
+ }, {
+   dist: '10',   chg: -161,   hisp: 0,   whitenh: -136,   blacknh: -117,   aiannh: -90,   asiannh: 135,   nhopinh: -17,   othernh: 55,   twoplusnh: 9
+ }, {
+   dist: '11',   chg: 29,   hisp: -124,   whitenh: 12,   blacknh: 96,   aiannh: 19,   asiannh: -66,   nhopinh: -13,   othernh: 32,   twoplusnh: 73
+ }, {
+   dist: '12',   chg: -19,   hisp: 215,   whitenh: -346,   blacknh: 97,   aiannh: -8,   asiannh: 39,   nhopinh: 9,   othernh: 1,   twoplusnh: -26
+ }, {
+   dist: '13',   chg: 129,   hisp: 94,   whitenh: 142,   blacknh: -50,   aiannh: -8,   asiannh: -29,   nhopinh: 0,   othernh: 37,   twoplusnh: -57
+ }, {
+   dist: '14',   chg: 180,   hisp: 53,   whitenh: -154,   blacknh: -135,   aiannh: -20,   asiannh: 188,   nhopinh: -5,   othernh: 75,   twoplusnh: 178
+ }, {
+   dist: '15',   chg: 32,   hisp: 123,   whitenh: 138,   blacknh: 33,   aiannh: -36,   asiannh: -49,   nhopinh: -112,   othernh: -13,   twoplusnh: -52
+ }, {
+   dist: '16',   chg: -105,   hisp: 293,   whitenh: 20,   blacknh: -88,   aiannh: -51,   asiannh: -109,   nhopinh: -2,   othernh: -98,   twoplusnh: -70
+ }, {
+   dist: '17',   chg: 101,   hisp: -180,   whitenh: -265,   blacknh: 433,   aiannh: 100,   asiannh: -38,   nhopinh: -3,   othernh: -56,   twoplusnh: 110
+ }, {
+   dist: '18',   chg: -188,   hisp: -389,   whitenh: 224,   blacknh: 63,   aiannh: -109,   asiannh: -3,   nhopinh: 41,   othernh: 83,   twoplusnh: -98
+ }, {
+   dist: '19',   chg: 122,   hisp: 7,   whitenh: 143,   blacknh: -10,   aiannh: -44,   asiannh: 30,   nhopinh: -19,   othernh: 30,   twoplusnh: -15
+ }, {
+   dist: '20',   chg: 23,   hisp: 107,   whitenh: 227,   blacknh: -372,   aiannh: 46,   asiannh: 129,   nhopinh: 31,   othernh: -80,   twoplusnh: -65
+ }, {
+   dist: '21',   chg: -145,   hisp: -38,   whitenh: -362,   blacknh: 87,   aiannh: 195,   asiannh: -113,   nhopinh: 96,   othernh: -22,   twoplusnh: 12
+ }, {
+   dist: '22',   chg: 117,   hisp: -176,   whitenh: 115,   blacknh: 0,   aiannh: 0,   asiannh: 104,   nhopinh: 27,   othernh: 3,   twoplusnh: 44
+ }, {
+   dist: '23',   chg: 254,   hisp: 156,   whitenh: 276,   blacknh: -2,   aiannh: 42,   asiannh: -249,   nhopinh: -1,   othernh: -43,   twoplusnh: 75
+ }, {
+   dist: '24',   chg: -260,   hisp: -175,   whitenh: -226,   blacknh: 86,   aiannh: 80,   asiannh: 4,   nhopinh: -40,   othernh: 12,   twoplusnh: -1
+ }, {
+   dist: '25',   chg: 82,   hisp: 18,   whitenh: 288,   blacknh: -110,   aiannh: -68,   asiannh: 3,   nhopinh: 7,   othernh: -12,   twoplusnh: -44
+ }, {
+   dist: '26',   chg: -6,   hisp: -60,   whitenh: 45,   blacknh: 32,   aiannh: 19,   asiannh: 40,   nhopinh: -24,   othernh: -66,   twoplusnh: 8
+ }, {
+   dist: '27',   chg: -125,   hisp: -21,   whitenh: -112,   blacknh: 78,   aiannh: 1,   asiannh: -102,   nhopinh: 2,   othernh: 47,   twoplusnh: -18
+ }, {
+   dist: '28',   chg: -150,   hisp: 263,   whitenh: -84,   blacknh: -107,   aiannh: -2,   asiannh: 18,   nhopinh: -6,   othernh: -38,   twoplusnh: -194
+ }, {
+   dist: '29',   chg: 73,   hisp: -84,   whitenh: -254,   blacknh: 29,   aiannh: -11,   asiannh: 222,   nhopinh: 17,   othernh: 20,   twoplusnh: 134
+ }, {
+   dist: '30',   chg: 102,   hisp: -37,   whitenh: -64,   blacknh: 293,   aiannh: 70,   asiannh: -259,   nhopinh: -82,   othernh: 104,   twoplusnh: 77
+ }, {
+   dist: '31',   chg: -101,   hisp: -247,   whitenh: 270,   blacknh: 142,   aiannh: 18,   asiannh: -111,   nhopinh: -29,   othernh: -13,   twoplusnh: -131
+ }, {
+   dist: '32',   chg: -61,   hisp: 97,   whitenh: 169,   blacknh: -260,   aiannh: -55,   asiannh: -54,   nhopinh: 48,   othernh: -54,   twoplusnh: 48
+ }, {
+   dist: '33',   chg: 34,   hisp: -38,   whitenh: 121,   blacknh: 105,   aiannh: 26,   asiannh: 17,   nhopinh: -36,   othernh: -49,   twoplusnh: -112
+ }, {
+   dist: '34',   chg: 45,   hisp: -257,   whitenh: -149,   blacknh: 105,   aiannh: -65,   asiannh: 171,   nhopinh: 42,   othernh: 22,   twoplusnh: 176
+ }, {
+   dist: '35',   chg: 122,   hisp: 222,   whitenh: -159,   blacknh: -144,   aiannh: -55,   asiannh: 337,   nhopinh: -7,   othernh: 11,   twoplusnh: -83
+ }, {
+   dist: '36',   chg: 174,   hisp: 339,   whitenh: -99,   blacknh: 168,   aiannh: -36,   asiannh: -158,   nhopinh: -83,   othernh: -37,   twoplusnh: 80
+ }, {
+   dist: '37',   chg: -129,   hisp: -33,   whitenh: -483,   blacknh: 71,   aiannh: 53,   asiannh: 302,   nhopinh: 14,   othernh: -51,   twoplusnh: -2
+ }, {
+   dist: '38',   chg: -117,   hisp: -180,   whitenh: 175,   blacknh: -287,   aiannh: 88,   asiannh: -41,   nhopinh: 88,   othernh: 116,   twoplusnh: -76
+ }, {
+   dist: '39',   chg: -195,   hisp: 141,   whitenh: -442,   blacknh: 91,   aiannh: -12,   asiannh: -112,   nhopinh: -17,   othernh: 54,   twoplusnh: 102
+ }, {
+   dist: '40',   chg: 195,   hisp: -353,   whitenh: 375,   blacknh: 16,   aiannh: -46,   asiannh: 135,   nhopinh: -59,   othernh: 29,   twoplusnh: 98
+ }, {
+   dist: '41',   chg: -93,   hisp: 37,   whitenh: 63,   blacknh: -84,   aiannh: 34,   asiannh: 48,   nhopinh: -5,   othernh: 56,   twoplusnh: -242
+ }, {
+   dist: '42',   chg: -71,   hisp: 97,   whitenh: 104,   blacknh: 328,   aiannh: 50,   asiannh: -519,   nhopinh: -17,   othernh: -65,   twoplusnh: -49
+ }, {
+   dist: '43',   chg: -81,   hisp: -206,   whitenh: 464,   blacknh: -115,   aiannh: -62,   asiannh: -69,   nhopinh: 44,   othernh: 21,   twoplusnh: -158
+ }, {
+   dist: '44',   chg: 59,   hisp: 86,   whitenh: -342,   blacknh: 74,   aiannh: 39,   asiannh: 193,   nhopinh: -46,   othernh: 24,   twoplusnh: 31
+ }, {
+   dist: '45',   chg: 215,   hisp: -19,   whitenh: 286,   blacknh: -4,   aiannh: 87,   asiannh: -74,   nhopinh: -26,   othernh: -69,   twoplusnh: 34
+ }, {
+   dist: '46',   chg: -174,   hisp: 120,   whitenh: -436,   blacknh: 107,   aiannh: 17,   asiannh: 54,   nhopinh: 30,   othernh: -3,   twoplusnh: -63
+ }, {
+   dist: '47',   chg: 39,   hisp: 223,   whitenh: -23,   blacknh: 23,   aiannh: -65,   asiannh: -119,   nhopinh: 18,   othernh: -64,   twoplusnh: 46
+ }, {
+   dist: '48',   chg: 79,   hisp: -35,   whitenh: 91,   blacknh: 47,   aiannh: -78,   asiannh: -39,   nhopinh: 15,   othernh: 28,   twoplusnh: 50
+ }, {
+   dist: '49',   chg: -37,   hisp: -364,   whitenh: 361,   blacknh: -9,   aiannh: -43,   asiannh: -58,   nhopinh: 22,   othernh: -23,   twoplusnh: 77
+ }, {
+   dist: '50',   chg: -26,   hisp: 124,   whitenh: -253,   blacknh: -90,   aiannh: 83,   asiannh: 182,   nhopinh: 1,   othernh: -68,   twoplusnh: -5
+ }, {
+   dist: '51',   chg: -57,   hisp: -166,   whitenh: 81,   blacknh: 48,   aiannh: -51,   asiannh: -63,   nhopinh: 58,   othernh: 23,   twoplusnh: 13
+ }, {
+   dist: '52',   chg: 159,   hisp: 412,   whitenh: -359,   blacknh: 45,   aiannh: -21,   asiannh: 104,   nhopinh: -13,   othernh: -13,   twoplusnh: 4
+ }, {
+   dist: '53',   chg: -26,   hisp: -94,   whitenh: -88,   blacknh: 11,   aiannh: 37,   asiannh: 81,   nhopinh: -31,   othernh: 27,   twoplusnh: 31
+ }, {
+   dist: '54',   chg: 26,   hisp: -118,   whitenh: 211,   blacknh: -66,   aiannh: 9,   asiannh: 65,   nhopinh: -29,   othernh: -10,   twoplusnh: -36
+ }, {
+   dist: '55',   chg: -72,   hisp: 160,   whitenh: -171,   blacknh: 0,   aiannh: -33,   asiannh: -6,   nhopinh: -29,   othernh: -1,   twoplusnh: 8
+ }, {
+   dist: '56',   chg: -94,   hisp: 184,   whitenh: -53,   blacknh: -263,   aiannh: -34,   asiannh: 55,   nhopinh: 58,   othernh: -7,   twoplusnh: -34
+ }, {
+   dist: '57',   chg: 29,   hisp: 105,   whitenh: 11,   blacknh: 65,   aiannh: 8,   asiannh: -127,   nhopinh: -32,   othernh: -63,   twoplusnh: 62
+ }, {
+   dist: '58',   chg: -4,   hisp: -153,   whitenh: 125,   blacknh: -75,   aiannh: 120,   asiannh: -19,   nhopinh: 28,   othernh: -55,   twoplusnh: 25
+ }, {
+   dist: '59',   chg: -32,   hisp: -76,   whitenh: -96,   blacknh: -5,   aiannh: 41,   asiannh: -22,   nhopinh: 55,   othernh: 70,   twoplusnh: 1
+ }, {
+   dist: '60',   chg: 50,   hisp: -130,   whitenh: 78,   blacknh: 72,   aiannh: -37,   asiannh: 12,   nhopinh: -12,   othernh: 38,   twoplusnh: 29
+ }, {
+   dist: '61',   chg: 140,   hisp: 34,   whitenh: 87,   blacknh: -72,   aiannh: -122,   asiannh: 38,   nhopinh: -24,   othernh: 160,   twoplusnh: 39
+ }, {
+   dist: '62',   chg: 21,   hisp: -194,   whitenh: 311,   blacknh: -7,   aiannh: -135,   asiannh: -1,   nhopinh: -3,   othernh: 33,   twoplusnh: 17
+ }, {
+   dist: '63',   chg: -156,   hisp: -37,   whitenh: 155,   blacknh: -53,   aiannh: -42,   asiannh: -95,   nhopinh: 35,   othernh: -37,   twoplusnh: -82
+ }, {
+   dist: '64',   chg: -25,   hisp: 43,   whitenh: 149,   blacknh: -25,   aiannh: -142,   asiannh: -106,   nhopinh: 17,   othernh: -18,   twoplusnh: 57
+ }, {
+   dist: '65',   chg: -24,   hisp: -80,   whitenh: -47,   blacknh: -22,   aiannh: 171,   asiannh: -52,   nhopinh: 5,   othernh: 23,   twoplusnh: -22
+ }
+];
+        
+        var sldl_sf1 = [
+ {
+   dist: '1',   hisp: 24287,   whitenh: 26927,   blacknh: 805,   aiannh: 420,   asiannh: 2778,   nhopinh: 47,   othernh: 88,   twoplusnh: 541
+ }, {
+   dist: '2',   hisp: 6392,   whitenh: 55990,   blacknh: 1782,   aiannh: 324,   asiannh: 1945,   nhopinh: 39,   othernh: 107,   twoplusnh: 1201
+ }, {
+   dist: '3',   hisp: 7915,   whitenh: 46804,   blacknh: 1073,   aiannh: 351,   asiannh: 2244,   nhopinh: 54,   othernh: 83,   twoplusnh: 849
+ }, {
+   dist: '4',   hisp: 26492,   whitenh: 27267,   blacknh: 1032,   aiannh: 518,   asiannh: 1028,   nhopinh: 26,   othernh: 112,   twoplusnh: 585
+ }, {
+   dist: '5',   hisp: 26206,   whitenh: 26828,   blacknh: 2694,   aiannh: 497,   asiannh: 1808,   nhopinh: 50,   othernh: 107,   twoplusnh: 845
+ }, {
+   dist: '6',   hisp: 5758,   whitenh: 45705,   blacknh: 5843,   aiannh: 209,   asiannh: 2583,   nhopinh: 44,   othernh: 103,   twoplusnh: 966
+ }, {
+   dist: '7',   hisp: 19015,   whitenh: 15216,   blacknh: 14476,   aiannh: 235,   asiannh: 2004,   nhopinh: 97,   othernh: 85,   twoplusnh: 1075
+ }, {
+   dist: '8',   hisp: 9619,   whitenh: 36622,   blacknh: 12035,   aiannh: 348,   asiannh: 1183,   nhopinh: 28,   othernh: 128,   twoplusnh: 1356
+ }, {
+   dist: '9',   hisp: 8403,   whitenh: 44331,   blacknh: 5328,   aiannh: 277,   asiannh: 2871,   nhopinh: 45,   othernh: 129,   twoplusnh: 1277
+ }, {
+   dist: '10',   hisp: 5327,   whitenh: 53643,   blacknh: 670,   aiannh: 202,   asiannh: 3414,   nhopinh: 45,   othernh: 120,   twoplusnh: 1117
+ }, {
+   dist: '11',   hisp: 8914,   whitenh: 45604,   blacknh: 368,   aiannh: 267,   asiannh: 1591,   nhopinh: 30,   othernh: 47,   twoplusnh: 594
+ }, {
+   dist: '12',   hisp: 8412,   whitenh: 44117,   blacknh: 421,   aiannh: 230,   asiannh: 1893,   nhopinh: 21,   othernh: 75,   twoplusnh: 611
+ }, {
+   dist: '13',   hisp: 2794,   whitenh: 58517,   blacknh: 322,   aiannh: 236,   asiannh: 1163,   nhopinh: 35,   othernh: 70,   twoplusnh: 783
+ }, {
+   dist: '14',   hisp: 4429,   whitenh: 43841,   blacknh: 1898,   aiannh: 256,   asiannh: 2407,   nhopinh: 96,   othernh: 72,   twoplusnh: 1109
+ }, {
+   dist: '15',   hisp: 6503,   whitenh: 39356,   blacknh: 3370,   aiannh: 269,   asiannh: 2156,   nhopinh: 183,   othernh: 101,   twoplusnh: 1300
+ }, {
+   dist: '16',   hisp: 7130,   whitenh: 48106,   blacknh: 2466,   aiannh: 363,   asiannh: 1343,   nhopinh: 99,   othernh: 98,   twoplusnh: 1236
+ }, {
+   dist: '17',   hisp: 15674,   whitenh: 28102,   blacknh: 7747,   aiannh: 420,   asiannh: 1727,   nhopinh: 266,   othernh: 107,   twoplusnh: 1793
+ }, {
+   dist: '18',   hisp: 7567,   whitenh: 51630,   blacknh: 2543,   aiannh: 475,   asiannh: 970,   nhopinh: 79,   othernh: 93,   twoplusnh: 1393
+ }, {
+   dist: '19',   hisp: 3199,   whitenh: 49241,   blacknh: 846,   aiannh: 299,   asiannh: 844,   nhopinh: 49,   othernh: 67,   twoplusnh: 908
+ }, {
+   dist: '20',   hisp: 5371,   whitenh: 50984,   blacknh: 1946,   aiannh: 250,   asiannh: 2054,   nhopinh: 140,   othernh: 80,   twoplusnh: 1278
+ }, {
+   dist: '21',   hisp: 7916,   whitenh: 36255,   blacknh: 5104,   aiannh: 437,   asiannh: 1523,   nhopinh: 436,   othernh: 78,   twoplusnh: 1509
+ }, {
+   dist: '22',   hisp: 4536,   whitenh: 49643,   blacknh: 361,   aiannh: 178,   asiannh: 1446,   nhopinh: 30,   othernh: 65,   twoplusnh: 567
+ }, {
+   dist: '23',   hisp: 9720,   whitenh: 49042,   blacknh: 822,   aiannh: 436,   asiannh: 1426,   nhopinh: 65,   othernh: 59,   twoplusnh: 782
+ }, {
+   dist: '24',   hisp: 7986,   whitenh: 49975,   blacknh: 593,   aiannh: 338,   asiannh: 1421,   nhopinh: 50,   othernh: 64,   twoplusnh: 756
+ }, {
+   dist: '25',   hisp: 2678,   whitenh: 54896,   blacknh: 222,   aiannh: 178,   asiannh: 712,   nhopinh: 30,   othernh: 60,   twoplusnh: 485
+ }, {
+   dist: '26',   hisp: 11193,   whitenh: 45357,   blacknh: 284,   aiannh: 159,   asiannh: 498,   nhopinh: 30,   othernh: 73,   twoplusnh: 403
+ }, {
+   dist: '27',   hisp: 5085,   whitenh: 51636,   blacknh: 339,   aiannh: 223,   asiannh: 963,   nhopinh: 21,   othernh: 50,   twoplusnh: 605
+ }, {
+   dist: '28',   hisp: 12146,   whitenh: 42737,   blacknh: 840,   aiannh: 409,   asiannh: 2258,   nhopinh: 50,   othernh: 87,   twoplusnh: 731
+ }, {
+   dist: '29',   hisp: 7932,   whitenh: 45694,   blacknh: 568,   aiannh: 245,   asiannh: 2196,   nhopinh: 50,   othernh: 66,   twoplusnh: 724
+ }, {
+   dist: '30',   hisp: 18956,   whitenh: 26218,   blacknh: 4780,   aiannh: 299,   asiannh: 2131,   nhopinh: 122,   othernh: 59,   twoplusnh: 829
+ }, {
+   dist: '31',   hisp: 16823,   whitenh: 35261,   blacknh: 890,   aiannh: 329,   asiannh: 1955,   nhopinh: 52,   othernh: 79,   twoplusnh: 702
+ }, {
+   dist: '32',   hisp: 27024,   whitenh: 22952,   blacknh: 914,   aiannh: 378,   asiannh: 1163,   nhopinh: 51,   othernh: 80,   twoplusnh: 540
+ }, {
+   dist: '33',   hisp: 4868,   whitenh: 46067,   blacknh: 504,   aiannh: 214,   asiannh: 3926,   nhopinh: 38,   othernh: 49,   twoplusnh: 693
+ }, {
+   dist: '34',   hisp: 16172,   whitenh: 35147,   blacknh: 952,   aiannh: 368,   asiannh: 2294,   nhopinh: 44,   othernh: 78,   twoplusnh: 721
+ }, {
+   dist: '35',   hisp: 15476,   whitenh: 39280,   blacknh: 795,   aiannh: 296,   asiannh: 3082,   nhopinh: 46,   othernh: 87,   twoplusnh: 681
+ }, {
+   dist: '36',   hisp: 9971,   whitenh: 29816,   blacknh: 8136,   aiannh: 257,   asiannh: 3620,   nhopinh: 140,   othernh: 82,   twoplusnh: 1184
+ }, {
+   dist: '37',   hisp: 4182,   whitenh: 43774,   blacknh: 2835,   aiannh: 144,   asiannh: 4191,   nhopinh: 62,   othernh: 56,   twoplusnh: 919
+ }, {
+   dist: '38',   hisp: 3599,   whitenh: 55175,   blacknh: 581,   aiannh: 212,   asiannh: 1177,   nhopinh: 47,   othernh: 35,   twoplusnh: 591
+ }, {
+   dist: '39',   hisp: 2712,   whitenh: 50649,   blacknh: 350,   aiannh: 235,   asiannh: 1557,   nhopinh: 32,   othernh: 53,   twoplusnh: 665
+ }, {
+   dist: '40',   hisp: 7535,   whitenh: 37554,   blacknh: 6235,   aiannh: 256,   asiannh: 3610,   nhopinh: 157,   othernh: 81,   twoplusnh: 1217
+ }, {
+   dist: '41',   hisp: 9425,   whitenh: 35753,   blacknh: 8846,   aiannh: 252,   asiannh: 3169,   nhopinh: 54,   othernh: 137,   twoplusnh: 1284
+ }, {
+   dist: '42',   hisp: 20096,   whitenh: 19933,   blacknh: 10514,   aiannh: 305,   asiannh: 2279,   nhopinh: 178,   othernh: 74,   twoplusnh: 1194
+ }, {
+   dist: '43',   hisp: 3439,   whitenh: 45516,   blacknh: 612,   aiannh: 161,   asiannh: 2506,   nhopinh: 20,   othernh: 53,   twoplusnh: 643
+ }, {
+   dist: '44',   hisp: 3882,   whitenh: 47000,   blacknh: 872,   aiannh: 152,   asiannh: 2412,   nhopinh: 46,   othernh: 43,   twoplusnh: 749
+ }, {
+   dist: '45',   hisp: 3617,   whitenh: 46619,   blacknh: 560,   aiannh: 181,   asiannh: 985,   nhopinh: 42,   othernh: 71,   twoplusnh: 589
+ }, {
+   dist: '46',   hisp: 21380,   whitenh: 35988,   blacknh: 983,   aiannh: 322,   asiannh: 335,   nhopinh: 29,   othernh: 79,   twoplusnh: 620
+ }, {
+   dist: '47',   hisp: 18291,   whitenh: 39147,   blacknh: 976,   aiannh: 401,   asiannh: 566,   nhopinh: 44,   othernh: 93,   twoplusnh: 728
+ }, {
+   dist: '48',   hisp: 10099,   whitenh: 44906,   blacknh: 225,   aiannh: 203,   asiannh: 520,   nhopinh: 39,   othernh: 59,   twoplusnh: 537
+ }, {
+   dist: '49',   hisp: 4044,   whitenh: 55391,   blacknh: 203,   aiannh: 230,   asiannh: 500,   nhopinh: 28,   othernh: 47,   twoplusnh: 549
+ }, {
+   dist: '50',   hisp: 21944,   whitenh: 32662,   blacknh: 953,   aiannh: 326,   asiannh: 700,   nhopinh: 50,   othernh: 106,   twoplusnh: 664
+ }, {
+   dist: '51',   hisp: 5360,   whitenh: 53422,   blacknh: 250,   aiannh: 276,   asiannh: 589,   nhopinh: 24,   othernh: 38,   twoplusnh: 558
+ }, {
+   dist: '52',   hisp: 6490,   whitenh: 51543,   blacknh: 479,   aiannh: 241,   asiannh: 1611,   nhopinh: 39,   othernh: 85,   twoplusnh: 787
+ }, {
+   dist: '53',   hisp: 5406,   whitenh: 55260,   blacknh: 807,   aiannh: 253,   asiannh: 1715,   nhopinh: 70,   othernh: 71,   twoplusnh: 1208
+ }, {
+   dist: '54',   hisp: 7020,   whitenh: 50185,   blacknh: 310,   aiannh: 411,   asiannh: 320,   nhopinh: 52,   othernh: 43,   twoplusnh: 633
+ }, {
+   dist: '55',   hisp: 6959,   whitenh: 52778,   blacknh: 365,   aiannh: 360,   asiannh: 571,   nhopinh: 69,   othernh: 50,   twoplusnh: 735
+ }, {
+   dist: '56',   hisp: 11220,   whitenh: 41130,   blacknh: 1170,   aiannh: 273,   asiannh: 1621,   nhopinh: 38,   othernh: 43,   twoplusnh: 667
+ }, {
+   dist: '57',   hisp: 11356,   whitenh: 43385,   blacknh: 239,   aiannh: 322,   asiannh: 340,   nhopinh: 36,   othernh: 65,   twoplusnh: 537
+ }, {
+   dist: '58',   hisp: 7193,   whitenh: 47680,   blacknh: 134,   aiannh: 2156,   asiannh: 311,   nhopinh: 33,   othernh: 58,   twoplusnh: 582
+ }, {
+   dist: '59',   hisp: 6422,   whitenh: 51987,   blacknh: 201,   aiannh: 2144,   asiannh: 342,   nhopinh: 29,   othernh: 78,   twoplusnh: 861
+ }, {
+   dist: '60',   hisp: 6324,   whitenh: 55222,   blacknh: 2091,   aiannh: 780,   asiannh: 381,   nhopinh: 16,   othernh: 39,   twoplusnh: 647
+ }, {
+   dist: '61',   hisp: 6910,   whitenh: 55426,   blacknh: 289,   aiannh: 209,   asiannh: 522,   nhopinh: 33,   othernh: 70,   twoplusnh: 597
+ }, {
+   dist: '62',   hisp: 27350,   whitenh: 29684,   blacknh: 400,   aiannh: 521,   asiannh: 342,   nhopinh: 34,   othernh: 97,   twoplusnh: 574
+ }, {
+   dist: '63',   hisp: 10807,   whitenh: 43088,   blacknh: 327,   aiannh: 592,   asiannh: 892,   nhopinh: 27,   othernh: 57,   twoplusnh: 636
+ }, {
+   dist: '64',   hisp: 12156,   whitenh: 45889,   blacknh: 1674,   aiannh: 512,   asiannh: 365,   nhopinh: 24,   othernh: 40,   twoplusnh: 516
+ }, {
+   dist: '65',   hisp: 11355,   whitenh: 44960,   blacknh: 1561,   aiannh: 326,   asiannh: 290,   nhopinh: 24,   othernh: 41,   twoplusnh: 346
+ }, {
+   dist: 'CO',   hisp: 664462,   whitenh: 2810513,   blacknh: 138811,   aiannh: 23946,   asiannh: 103339,   nhopinh: 4104,   othernh: 4850,   twoplusnh: 53562
+ }
+];
+        
+        var sldl_dp = [
+ {
+   dist: '1',   hisp: 24367,   whitenh: 26554,   blacknh: 743,   aiannh: 591,   asiannh: 2791,   nhopinh: 23,   othernh: 124,   twoplusnh: 542
+ }, {
+   dist: '2',   hisp: 6131,   whitenh: 56508,   blacknh: 1517,   aiannh: 346,   asiannh: 1970,   nhopinh: 73,   othernh: 99,   twoplusnh: 1182
+ }, {
+   dist: '3',   hisp: 7877,   whitenh: 46791,   blacknh: 900,   aiannh: 332,   asiannh: 2334,   nhopinh: 73,   othernh: 59,   twoplusnh: 946
+ }, {
+   dist: '4',   hisp: 26474,   whitenh: 27239,   blacknh: 1074,   aiannh: 643,   asiannh: 1068,   nhopinh: 61,   othernh: 0,   twoplusnh: 459
+ }, {
+   dist: '5',   hisp: 26343,   whitenh: 26927,   blacknh: 2479,   aiannh: 476,   asiannh: 1978,   nhopinh: 28,   othernh: 31,   twoplusnh: 1050
+ }, {
+   dist: '6',   hisp: 5850,   whitenh: 45444,   blacknh: 5846,   aiannh: 181,   asiannh: 2595,   nhopinh: 22,   othernh: 111,   twoplusnh: 941
+ }, {
+   dist: '7',   hisp: 19029,   whitenh: 14890,   blacknh: 14732,   aiannh: 161,   asiannh: 2168,   nhopinh: 85,   othernh: 19,   twoplusnh: 1178
+ }, {
+   dist: '8',   hisp: 9493,   whitenh: 36422,   blacknh: 12420,   aiannh: 317,   asiannh: 988,   nhopinh: 75,   othernh: 176,   twoplusnh: 1321
+ }, {
+   dist: '9',   hisp: 8569,   whitenh: 44773,   blacknh: 5163,   aiannh: 197,   asiannh: 2680,   nhopinh: 81,   othernh: 230,   twoplusnh: 1217
+ }, {
+   dist: '10',   hisp: 5327,   whitenh: 53507,   blacknh: 553,   aiannh: 112,   asiannh: 3549,   nhopinh: 28,   othernh: 175,   twoplusnh: 1126
+ }, {
+   dist: '11',   hisp: 8790,   whitenh: 45616,   blacknh: 464,   aiannh: 286,   asiannh: 1525,   nhopinh: 17,   othernh: 79,   twoplusnh: 667
+ }, {
+   dist: '12',   hisp: 8627,   whitenh: 43771,   blacknh: 518,   aiannh: 222,   asiannh: 1932,   nhopinh: 30,   othernh: 76,   twoplusnh: 585
+ }, {
+   dist: '13',   hisp: 2888,   whitenh: 58659,   blacknh: 272,   aiannh: 228,   asiannh: 1134,   nhopinh: 35,   othernh: 107,   twoplusnh: 726
+ }, {
+   dist: '14',   hisp: 4482,   whitenh: 43687,   blacknh: 1763,   aiannh: 236,   asiannh: 2595,   nhopinh: 91,   othernh: 147,   twoplusnh: 1287
+ }, {
+   dist: '15',   hisp: 6626,   whitenh: 39494,   blacknh: 3403,   aiannh: 233,   asiannh: 2107,   nhopinh: 71,   othernh: 88,   twoplusnh: 1248
+ }, {
+   dist: '16',   hisp: 7423,   whitenh: 48126,   blacknh: 2378,   aiannh: 312,   asiannh: 1234,   nhopinh: 97,   othernh: 0,   twoplusnh: 1166
+ }, {
+   dist: '17',   hisp: 15494,   whitenh: 27837,   blacknh: 8180,   aiannh: 520,   asiannh: 1689,   nhopinh: 263,   othernh: 51,   twoplusnh: 1903
+ }, {
+   dist: '18',   hisp: 7178,   whitenh: 51854,   blacknh: 2606,   aiannh: 366,   asiannh: 967,   nhopinh: 120,   othernh: 176,   twoplusnh: 1295
+ }, {
+   dist: '19',   hisp: 3206,   whitenh: 49384,   blacknh: 836,   aiannh: 255,   asiannh: 874,   nhopinh: 30,   othernh: 97,   twoplusnh: 893
+ }, {
+   dist: '20',   hisp: 5478,   whitenh: 51211,   blacknh: 1574,   aiannh: 296,   asiannh: 2183,   nhopinh: 171,   othernh: 0,   twoplusnh: 1213
+ }, {
+   dist: '21',   hisp: 7878,   whitenh: 35893,   blacknh: 5191,   aiannh: 632,   asiannh: 1410,   nhopinh: 532,   othernh: 56,   twoplusnh: 1521
+ }, {
+   dist: '22',   hisp: 4360,   whitenh: 49758,   blacknh: 361,   aiannh: 178,   asiannh: 1550,   nhopinh: 57,   othernh: 68,   twoplusnh: 611
+ }, {
+   dist: '23',   hisp: 9876,   whitenh: 49318,   blacknh: 820,   aiannh: 478,   asiannh: 1177,   nhopinh: 64,   othernh: 16,   twoplusnh: 857
+ }, {
+   dist: '24',   hisp: 7811,   whitenh: 49749,   blacknh: 679,   aiannh: 418,   asiannh: 1425,   nhopinh: 10,   othernh: 76,   twoplusnh: 755
+ }, {
+   dist: '25',   hisp: 2696,   whitenh: 55184,   blacknh: 112,   aiannh: 110,   asiannh: 715,   nhopinh: 37,   othernh: 48,   twoplusnh: 441
+ }, {
+   dist: '26',   hisp: 11133,   whitenh: 45402,   blacknh: 316,   aiannh: 178,   asiannh: 538,   nhopinh: 6,   othernh: 7,   twoplusnh: 411
+ }, {
+   dist: '27',   hisp: 5064,   whitenh: 51524,   blacknh: 417,   aiannh: 224,   asiannh: 861,   nhopinh: 23,   othernh: 97,   twoplusnh: 587
+ }, {
+   dist: '28',   hisp: 12409,   whitenh: 42653,   blacknh: 733,   aiannh: 407,   asiannh: 2276,   nhopinh: 44,   othernh: 49,   twoplusnh: 537
+ }, {
+   dist: '29',   hisp: 7848,   whitenh: 45440,   blacknh: 597,   aiannh: 234,   asiannh: 2418,   nhopinh: 67,   othernh: 86,   twoplusnh: 858
+ }, {
+   dist: '30',   hisp: 18919,   whitenh: 26154,   blacknh: 5073,   aiannh: 369,   asiannh: 1872,   nhopinh: 40,   othernh: 163,   twoplusnh: 906
+ }, {
+   dist: '31',   hisp: 16576,   whitenh: 35531,   blacknh: 1032,   aiannh: 347,   asiannh: 1844,   nhopinh: 23,   othernh: 66,   twoplusnh: 571
+ }, {
+   dist: '32',   hisp: 27121,   whitenh: 23121,   blacknh: 654,   aiannh: 323,   asiannh: 1109,   nhopinh: 99,   othernh: 26,   twoplusnh: 588
+ }, {
+   dist: '33',   hisp: 4830,   whitenh: 46188,   blacknh: 609,   aiannh: 240,   asiannh: 3943,   nhopinh: 2,   othernh: 0,   twoplusnh: 581
+ }, {
+   dist: '34',   hisp: 15915,   whitenh: 34998,   blacknh: 1057,   aiannh: 303,   asiannh: 2465,   nhopinh: 86,   othernh: 100,   twoplusnh: 897
+ }, {
+   dist: '35',   hisp: 15698,   whitenh: 39121,   blacknh: 651,   aiannh: 241,   asiannh: 3419,   nhopinh: 39,   othernh: 98,   twoplusnh: 598
+ }, {
+   dist: '36',   hisp: 10310,   whitenh: 29717,   blacknh: 8304,   aiannh: 221,   asiannh: 3462,   nhopinh: 57,   othernh: 45,   twoplusnh: 1264
+ }, {
+   dist: '37',   hisp: 4149,   whitenh: 43291,   blacknh: 2906,   aiannh: 197,   asiannh: 4493,   nhopinh: 76,   othernh: 5,   twoplusnh: 917
+ }, {
+   dist: '38',   hisp: 3419,   whitenh: 55350,   blacknh: 294,   aiannh: 300,   asiannh: 1136,   nhopinh: 135,   othernh: 151,   twoplusnh: 515
+ }, {
+   dist: '39',   hisp: 2853,   whitenh: 50207,   blacknh: 441,   aiannh: 223,   asiannh: 1445,   nhopinh: 15,   othernh: 107,   twoplusnh: 767
+ }, {
+   dist: '40',   hisp: 7182,   whitenh: 37929,   blacknh: 6251,   aiannh: 210,   asiannh: 3745,   nhopinh: 98,   othernh: 110,   twoplusnh: 1315
+ }, {
+   dist: '41',   hisp: 9462,   whitenh: 35816,   blacknh: 8762,   aiannh: 286,   asiannh: 3217,   nhopinh: 49,   othernh: 193,   twoplusnh: 1042
+ }, {
+   dist: '42',   hisp: 20193,   whitenh: 20037,   blacknh: 10842,   aiannh: 355,   asiannh: 1760,   nhopinh: 161,   othernh: 9,   twoplusnh: 1145
+ }, {
+   dist: '43',   hisp: 3233,   whitenh: 45980,   blacknh: 497,   aiannh: 99,   asiannh: 2437,   nhopinh: 64,   othernh: 74,   twoplusnh: 485
+ }, {
+   dist: '44',   hisp: 3968,   whitenh: 46658,   blacknh: 946,   aiannh: 191,   asiannh: 2605,   nhopinh: 0,   othernh: 67,   twoplusnh: 780
+ }, {
+   dist: '45',   hisp: 3598,   whitenh: 46905,   blacknh: 556,   aiannh: 268,   asiannh: 911,   nhopinh: 16,   othernh: 2,   twoplusnh: 623
+ }, {
+   dist: '46',   hisp: 21500,   whitenh: 35552,   blacknh: 1090,   aiannh: 339,   asiannh: 389,   nhopinh: 59,   othernh: 76,   twoplusnh: 557
+ }, {
+   dist: '47',   hisp: 18514,   whitenh: 39124,   blacknh: 999,   aiannh: 336,   asiannh: 447,   nhopinh: 62,   othernh: 29,   twoplusnh: 774
+ }, {
+   dist: '48',   hisp: 10064,   whitenh: 44997,   blacknh: 272,   aiannh: 125,   asiannh: 481,   nhopinh: 54,   othernh: 87,   twoplusnh: 587
+ }, {
+   dist: '49',   hisp: 3680,   whitenh: 55752,   blacknh: 194,   aiannh: 187,   asiannh: 442,   nhopinh: 50,   othernh: 24,   twoplusnh: 626
+ }, {
+   dist: '50',   hisp: 22068,   whitenh: 32409,   blacknh: 863,   aiannh: 409,   asiannh: 882,   nhopinh: 51,   othernh: 38,   twoplusnh: 659
+ }, {
+   dist: '51',   hisp: 5194,   whitenh: 53503,   blacknh: 298,   aiannh: 225,   asiannh: 526,   nhopinh: 82,   othernh: 61,   twoplusnh: 571
+ }, {
+   dist: '52',   hisp: 6902,   whitenh: 51184,   blacknh: 524,   aiannh: 220,   asiannh: 1715,   nhopinh: 26,   othernh: 72,   twoplusnh: 791
+ }, {
+   dist: '53',   hisp: 5312,   whitenh: 55172,   blacknh: 818,   aiannh: 290,   asiannh: 1796,   nhopinh: 39,   othernh: 98,   twoplusnh: 1239
+ }, {
+   dist: '54',   hisp: 6902,   whitenh: 50396,   blacknh: 244,   aiannh: 420,   asiannh: 385,   nhopinh: 23,   othernh: 33,   twoplusnh: 597
+ }, {
+   dist: '55',   hisp: 7119,   whitenh: 52607,   blacknh: 365,   aiannh: 327,   asiannh: 565,   nhopinh: 40,   othernh: 49,   twoplusnh: 743
+ }, {
+   dist: '56',   hisp: 11404,   whitenh: 41077,   blacknh: 907,   aiannh: 239,   asiannh: 1676,   nhopinh: 96,   othernh: 36,   twoplusnh: 633
+ }, {
+   dist: '57',   hisp: 11461,   whitenh: 43396,   blacknh: 304,   aiannh: 330,   asiannh: 213,   nhopinh: 4,   othernh: 2,   twoplusnh: 599
+ }, {
+   dist: '58',   hisp: 7040,   whitenh: 47805,   blacknh: 59,   aiannh: 2276,   asiannh: 292,   nhopinh: 61,   othernh: 3,   twoplusnh: 607
+ }, {
+   dist: '59',   hisp: 6346,   whitenh: 51891,   blacknh: 196,   aiannh: 2185,   asiannh: 320,   nhopinh: 84,   othernh: 148,   twoplusnh: 862
+ }, {
+   dist: '60',   hisp: 6194,   whitenh: 55300,   blacknh: 2163,   aiannh: 743,   asiannh: 393,   nhopinh: 4,   othernh: 77,   twoplusnh: 676
+ }, {
+   dist: '61',   hisp: 6944,   whitenh: 55513,   blacknh: 217,   aiannh: 87,   asiannh: 560,   nhopinh: 9,   othernh: 230,   twoplusnh: 636
+ }, {
+   dist: '62',   hisp: 27156,   whitenh: 29995,   blacknh: 393,   aiannh: 386,   asiannh: 341,   nhopinh: 31,   othernh: 130,   twoplusnh: 591
+ }, {
+   dist: '63',   hisp: 10770,   whitenh: 43243,   blacknh: 274,   aiannh: 550,   asiannh: 797,   nhopinh: 62,   othernh: 20,   twoplusnh: 554
+ }, {
+   dist: '64',   hisp: 12199,   whitenh: 46038,   blacknh: 1649,   aiannh: 370,   asiannh: 259,   nhopinh: 41,   othernh: 22,   twoplusnh: 573
+ }, {
+   dist: '65',   hisp: 11275,   whitenh: 44913,   blacknh: 1539,   aiannh: 497,   asiannh: 238,   nhopinh: 29,   othernh: 64,   twoplusnh: 324
+ }, {
+   dist: 'CO',   hisp: 664197,   whitenh: 2810485,   blacknh: 138890,   aiannh: 23883,   asiannh: 103311,   nhopinh: 4181,   othernh: 4863,   twoplusnh: 53716
+ }
+];
+
+
+
+       
       var brew = new classyBrew();
+      geo = cd; 
+      //var DISTNUM = "CD113FP";
+      dist = "CD113";
+      distnum = 7
+      chgdata = cd_data;
+      datasf1 = cd_sf1; 
+      dataDP = cd_dp;
 
- data = [
- {
-   CD113: '01',
-   chg: 264,
-   hisp: -144,
-   whitenh: 140,
-   blacknh: -264,
-   aiannh: 102,
-   asiannh: 232,
-   nhopinh: 102,
-   othernh: -49,
-   twoplusnh: 145
- },
- {
-   CD113: '02',
-   chg: 11,
-   hisp: 120,
-   whitenh: 275,
-   blacknh: -83,
-   aiannh: -272,
-   asiannh: 191,
-   nhopinh: -35,
-   othernh: -24,
-   twoplusnh: -161
- },
- {
-   CD113: '03',
-   chg: 27,
-   hisp: -44,
-   whitenh: -49,
-   blacknh: 25,
-   aiannh: -3,
-   asiannh: -107,
-   nhopinh: -7,
-   othernh: 27,
-   twoplusnh: 185
- },
- {
-   CD113: '04',
-   chg: 62,
-   hisp: -250,
-   whitenh: -44,
-   blacknh: 192,
-   aiannh: -16,
-   asiannh: -120,
-   nhopinh: 18,
-   othernh: -38,
-   twoplusnh: 320
- },
- {
-   CD113: '05',
-   chg: -20,
-   hisp: -127,
-   whitenh: -110,
-   blacknh: 86,
-   aiannh: 84,
-   asiannh: 85,
-   nhopinh: 1,
-   othernh: 13,
-   twoplusnh: -52
- },
- {
-   CD113: '06',
-   chg: -297,
-   hisp: 105,
-   whitenh: 109,
-   blacknh: 201,
-   aiannh: 121,
-   asiannh: -540,
-   nhopinh: -23,
-   othernh: 87,
-   twoplusnh: -357
- },
- {
-   CD113: '07',
-   chg: -108,
-   hisp: 75,
-   whitenh: -349,
-   blacknh: -78,
-   aiannh: -79,
-   asiannh: 231,
-   nhopinh: 21,
-   othernh: -3,
-   twoplusnh: 74
- }
-]
-      datasf1 = [
- {
-   CD113: '01',
-   hisp: 135691,
-   whitenh: 349931,
-   blacknh: 44985,
-   aiannh: 3243,
-   asiannh: 18143,
-   nhopinh: 444,
-   othernh: 965,
-   twoplusnh: 8870
- },
- {
-   CD113: '02',
-   hisp: 46278,
-   whitenh: 491467,
-   blacknh: 4084,
-   aiannh: 2070,
-   asiannh: 15494,
-   nhopinh: 345,
-   othernh: 650,
-   twoplusnh: 7003
- },
- {
-   CD113: '03',
-   hisp: 113102,
-   whitenh: 414881,
-   blacknh: 3818,
-   aiannh: 6825,
-   asiannh: 3668,
-   nhopinh: 370,
-   othernh: 639,
-   twoplusnh: 5812
- },
- {
-   CD113: '04',
-   hisp: 94966,
-   whitenh: 404202,
-   blacknh: 6995,
-   aiannh: 2892,
-   asiannh: 8665,
-   nhopinh: 307,
-   othernh: 533,
-   twoplusnh: 5279
- },
- {
-   CD113: '05',
-   hisp: 64846,
-   whitenh: 414862,
-   blacknh: 28043,
-   aiannh: 3661,
-   asiannh: 13485,
-   nhopinh: 1376,
-   othernh: 740,
-   twoplusnh: 11387
- },
- {
-   CD113: '06',
-   hisp: 86938,
-   whitenh: 350260,
-   blacknh: 43832,
-   aiannh: 2138,
-   asiannh: 26787,
-   nhopinh: 818,
-   othernh: 659,
-   twoplusnh: 8726
- },
- {
-   CD113: '07',
-   hisp: 122641,
-   whitenh: 384910,
-   blacknh: 7054,
-   aiannh: 3117,
-   asiannh: 17097,
-   nhopinh: 444,
-   othernh: 664,
-   twoplusnh: 6485
- },
- {
-   CD113: 'CO',
-   hisp: 664462,
-   whitenh: 2810513,
-   blacknh: 138811,
-   aiannh: 23946,
-   asiannh: 103339,
-   nhopinh: 4104,
-   othernh: 4850,
-   twoplusnh: 53562
- }
-]
-
-      dataDP = [
- {
-   CD113: '01',
-   hisp: 135547,
-   whitenh: 350071,
-   blacknh: 44721,
-   aiannh: 3345,
-   asiannh: 18375,
-   nhopinh: 546,
-   othernh: 916,
-   twoplusnh: 9015
- },
- {
-   CD113: '02',
-   hisp: 46398,
-   whitenh: 491742,
-   blacknh: 4001,
-   aiannh: 1798,
-   asiannh: 15685,
-   nhopinh: 310,
-   othernh: 626,
-   twoplusnh: 6842
- },
- {
-   CD113: '03',
-   hisp: 113058,
-   whitenh: 414832,
-   blacknh: 3843,
-   aiannh: 6822,
-   asiannh: 3561,
-   nhopinh: 363,
-   othernh: 666,
-   twoplusnh: 5997
- },
- {
-   CD113: '04',
-   hisp: 94716,
-   whitenh: 404158,
-   blacknh: 7187,
-   aiannh: 2876,
-   asiannh: 8545,
-   nhopinh: 325,
-   othernh: 495,
-   twoplusnh: 5599
- },
- {
-   CD113: '05',
-   hisp: 64719,
-   whitenh: 414752,
-   blacknh: 28129,
-   aiannh: 3745,
-   asiannh: 13570,
-   nhopinh: 1377,
-   othernh: 753,
-   twoplusnh: 11335
- },
- {
-   CD113: '06',
-   hisp: 87043,
-   whitenh: 350369,
-   blacknh: 44033,
-   aiannh: 2259,
-   asiannh: 26247,
-   nhopinh: 795,
-   othernh: 746,
-   twoplusnh: 8369
- },
- {
-   CD113: '07',
-   hisp: 122716,
-   whitenh: 384561,
-   blacknh: 6976,
-   aiannh: 3038,
-   asiannh: 17328,
-   nhopinh: 465,
-   othernh: 661,
-   twoplusnh: 6559
- },
- {
-   CD113: 'CO',
-   hisp: 664197,
-   whitenh: 2810485,
-   blacknh: 138890,
-   aiannh: 23883,
-   asiannh: 103311,
-   nhopinh: 4181,
-   othernh: 4863,
-   twoplusnh: 53716
- }
-]
-
+ 
       //*************************************** Begin bar chart construction ****************************************
         var w = document.getElementById('rtSide').offsetWidth * 0.95,
         // h = w * 0.4,
@@ -479,11 +944,11 @@
       //* SF1 BAR CHART ******
       //*************************************************************************************************************
 
-        var nest = d3.nest().key(function(d) {return d.CD113; }).entries(datasf1); // console.log(nest);
+        var nest = d3.nest().key(function(d) {return d.dist; }).entries(datasf1); //console.log(nest);
         
-        var barChart = function(cd113) {
-          var caNest = nest.filter(function(d) { return d.key == cd113; }); //console.log(caNest[0].values["hisp"]);
-          values2 = caNest[0].values; // console.log(values2[0]);
+        var barChart = function(geo) {
+          var caNest = nest.filter(function(d) { return d.key == geo; }); //console.log(caNest[0].values["hisp"]);
+          values2 = caNest[0].values; //console.log(values2[0]);
           var rate = values2[0]; //console.log(rate);
 
           var dsf1 = [
@@ -561,8 +1026,9 @@
 
       //****** UPDATE SF1 BAR CHART *************************
 
-      var updateBarChartSF1 = function(cd113) {
-        var caNest = nest.filter(function(d) { return d.key == cd113; }); //console.log(caNest[0].values["hisp"]);
+      var updateBarChartSF1 = function(geo) {
+          var nest = d3.nest().key(function(d) {return d.dist; }).entries(datasf1); //console.log(nest);
+        var caNest = nest.filter(function(d) { return d.key == geo; }); //console.log(caNest[0].values["hisp"]);
         var values2 = caNest[0].values; // console.log(values2[0]);
         var rate = values2[0]; // console.log(rate);
 
@@ -638,10 +1104,10 @@
       //* DP BAR CHART ******
       //*************************************************************************************************************
 
-      var nest2 = d3.nest().key(function(d) {return d.CD113; }).entries(dataDP); // console.log(nest2);
+      var nest2 = d3.nest().key(function(d) {return d.dist; }).entries(dataDP);  console.log(nest2);
         
-      var barChartDP = function(cd113) {
-        var caNestDP = nest2.filter(function(d) { return d.key == cd113; }); //console.log(caNest[0].values["hisp"]);
+      var barChartDP = function(geo) {
+        var caNestDP = nest2.filter(function(d) { return d.key == geo; }); //console.log(caNest[0].values["hisp"]);
         values2DP = caNestDP[0].values; // console.log(values2DP[0]);
         var rateDP = values2DP[0]; // console.log(rateDP);
 
@@ -720,10 +1186,11 @@
 
       //****** UPDATE DP BAR CHART *************************
 
-      var updateBarChartDP = function(cd113) {
-        var caNestDP = nest2.filter(function(d) { return d.key == cd113; }); //console.log(caNest[0].values["hisp"]);
-        var values2DP = caNestDP[0].values; // console.log(values2DP[0]);
-        var rateDP = values2DP[0]; // console.log(rateDP);
+      var updateBarChartDP = function(geo) {
+        var nest2 = d3.nest().key(function(d) {return d.dist; }).entries(dataDP);  console.log(nest2);
+          var caNestDP = nest2.filter(function(d) { return d.key == geo; }); //console.log(geo);
+        var values2DP = caNestDP[0].values;  console.log(values2DP[0]);
+        var rateDP = values2DP[0];  console.log(rateDP);
 
         var dDP = [
           {name: "Hispanic, Any Race", value:values2DP[0]["hisp"]},
@@ -796,7 +1263,7 @@
       //* Difference Graph ******
       //*************************************************************************************************************
 
-      var diffChart = function(cd113) {
+      var diffChart = function(geo) {
 
         var chgDP = [
             {name: "Hispanic, Any Race", value: (values2DP[0]["hisp"] - values2[0]["hisp"])},
@@ -878,19 +1345,20 @@
 
       };
 
-      diffChart('CA');
+      diffChart('CO');
 
       //****** UPDATE CHANGE BAR CHART *************************
 
-      var updateBarChartChg = function(cd113) {
-
+      var updateBarChartChg = function(geo) {
+var nest = d3.nest().key(function(d) {return d.dist; }).entries(datasf1); //console.log(nest);
+          var nest2 = d3.nest().key(function(d) {return d.dist; }).entries(dataDP);  console.log(nest2)
         // DP data
-        var caNestDP = nest2.filter(function(d) { return d.key == cd113; }); //console.log(caNest[0].values["hisp"]);
+        var caNestDP = nest2.filter(function(d) { return d.key == geo; }); //console.log(caNest[0].values["hisp"]);
         var values2DP = caNestDP[0].values; // console.log(values2DP[0]);
         var rateDP = values2DP[0]; // console.log(rateDP);
 
         // SF1 data
-        var caNest = nest.filter(function(d) { return d.key == cd113; }); //console.log(caNest[0].values["hisp"]);
+        var caNest = nest.filter(function(d) { return d.key == geo; }); //console.log(caNest[0].values["hisp"]);
         var values2 = caNest[0].values; // console.log(values2[0]);
         var rate = values2[0]; // console.log(rate);
 
@@ -978,9 +1446,9 @@
 
       var data1 = {},
       values=[];
-      for (j=0; j<data.length; j++) {
-          data1[data[j].CD113] = data[j].chg;
-          values.push(data[j].chg);
+      for (j=0; j<chgdata.length; j++) {
+          data1[chgdata[j].dist] = chgdata[j].chg;
+          values.push(chgdata[j].chg);
       }
 
       brew.setSeries(values);
@@ -994,7 +1462,7 @@
           opacity: 1,
           color: 'white',
           fillOpacity: 0.5,
-          fillColor: brew.getColorInRange(data1[feature.properties.CD113FP])
+          fillColor: brew.getColorInRange(data1[feature.properties.DISTNUM])
         };
       }
 
@@ -1008,21 +1476,21 @@
 
       var layerGroup = L.layerGroup().addTo(map);
 
-      var jLayer = L.geoJSON(cd113, {
+      var jLayer = L.geoJSON(geo, {
         style: mapstyle,
         onEachFeature: function(feature, layer) {
-            for(i=0; i<7; i++){
-              if (feature.properties.CD113FP == data[i].CD113) {
-                feature.properties.chg = data[i].chg;
-                feature.properties.hisp = data[i].hisp;
+            for(i=0; i<distnum; i++){
+              if (feature.properties.DISTNUM == chgdata[i].dist) {
+                feature.properties.chg = chgdata[i].chg;
+                feature.properties.hisp = chgdata[i].hisp;
               }
             }
-            layer.bindTooltip("CD "+feature.properties.CD113FP+"<br>Change in Population: "+feature.properties.chg)
+            layer.bindTooltip("District "+feature.properties.DISTNUM+"<br>Change in Population: "+feature.properties.chg)
             
             // layer.on('click', function(e){
-            //   // alert(e.target.feature.properties.CD113FP);
-            //   updateBarChartDP(e.target.feature.properties.CD113FP);
-            //   document.getElementById("dpTag").innerHTML = "Differential Privacy - Population 18 years and Over by Race - CD "+e.target.feature.properties.CD113FP;
+            //   // alert(e.target.feature.properties.DISTNUM);
+            //   updateBarChartDP(e.target.feature.properties.DISTNUM);
+            //   document.getElementById("dpTag").innerHTML = "Differential Privacy - Population 18 years and Over by Race - CD "+e.target.feature.properties.DISTNUM;
             // })
           }
       }).addTo(layerGroup);
@@ -1030,9 +1498,9 @@
       map.fitBounds(jLayer.getBounds());
 
       map.on('click', function(e){
-        updateBarChartDP('CA');
-        updateBarChartSF1('CA');
-        updateBarChartChg('CA');
+        updateBarChartDP('CO');
+        updateBarChartSF1('CO');
+        updateBarChartChg('CO');
         document.getElementById("dpTag").innerHTML = "Differential Privacy - Population 18 years and Over by Race - Colorado";
         document.getElementById("sf1Tag").innerHTML = "SF1 - Population 18 Years and Over by Race - Colorado";
         document.getElementById("chgTag").innerHTML = "Difference (DP - SF1) - Population 18 Years and Over by Race - Colorado";
@@ -1042,16 +1510,16 @@
       jLayer.on('click',function(e){
         L.DomEvent.stopPropagation(e);
         // alert('click on json');
-        // console.log(e.layer.feature.properties.CD113FP)
-        updateBarChartDP(e.layer.feature.properties.CD113FP);
-        updateBarChartSF1(e.layer.feature.properties.CD113FP);
-        updateBarChartChg(e.layer.feature.properties.CD113FP);
-        document.getElementById("dpTag").innerHTML = "Differential Privacy - Population 18 Years and Over by Race - CD "+e.layer.feature.properties.CD113FP;
-        document.getElementById("sf1Tag").innerHTML = "SF1 - Population 18 Years and Over by Race - CD "+e.layer.feature.properties.CD113FP;
-        document.getElementById("chgTag").innerHTML = "Difference (DP - SF1) - Population 18 Years and Over by Race - CD "+e.layer.feature.properties.CD113FP;
+        // console.log(e.layer.feature.properties.DISTNUM)
+        updateBarChartDP(e.layer.feature.properties.DISTNUM);
+        updateBarChartSF1(e.layer.feature.properties.DISTNUM);
+        updateBarChartChg(e.layer.feature.properties.DISTNUM);
+        document.getElementById("dpTag").innerHTML = "Differential Privacy - Population 18 Years and Over by Race - District "+e.layer.feature.properties.DISTNUM;
+        document.getElementById("sf1Tag").innerHTML = "SF1 - Population 18 Years and Over by Race - District "+e.layer.feature.properties.DISTNUM;
+        document.getElementById("chgTag").innerHTML = "Difference (DP - SF1) - Population 18 Years and Over by Race - District "+e.layer.feature.properties.DISTNUM;
       })
 
-      // var popupTemplate = "<h3>Congressional District {CD113FP}</h3><br>Total Change in the Hispanic population: {hisp}";
+      // var popupTemplate = "<h3>Congressional District {DISTNUM}</h3><br>Total Change in the Hispanic population: {hisp}";
 
       // jLayer.bindPopup(function(e){
       //   console.log(e.feature.properties)
@@ -1103,9 +1571,9 @@
 
       var dataH = {},
       valuesH=[];
-      for (j=0; j<data.length; j++) {
-          dataH[data[j].CD113] = data[j].hisp;
-          valuesH.push(data[j].hisp);
+      for (j=0; j<chgdata.length; j++) {
+          dataH[chgdata[j].dist] = chgdata[j].hisp;
+          valuesH.push(chgdata[j].hisp);
       }
 
       var brewH = new classyBrew();
@@ -1121,20 +1589,20 @@
           opacity: 1,
           color: 'white',
           fillOpacity: 0.7,
-          fillColor: brewH.getColorInRange(dataH[feature.properties.CD113FP])
+          fillColor: brewH.getColorInRange(dataH[feature.properties.DISTNUM])
         };
       }
 
-      var hLayer = L.geoJson(cd113, {
+      var hLayer = L.geoJson(geo, {
         style: mapstyleH, 
         onEachFeature: function(feature, layer) {
-            for(i=0; i<7; i++){
-              if (feature.properties.CD113FP == data[i].CD113) {
-                feature.properties.chg = data[i].chg;
-                feature.properties.hisp = data[i].hisp;
+            for(i=0; i<distnum; i++){
+              if (feature.properties.DISTNUM == chgdata[i].dist) {
+                feature.properties.chg = chgdata[i].chg;
+                feature.properties.hisp = chgdata[i].hisp;
               }
             }
-            layer.bindTooltip("CD "+feature.properties.CD113FP+"<br>Change in Population: "+feature.properties.hisp.toLocaleString())
+            layer.bindTooltip("District "+feature.properties.DISTNUM+"<br>Change in Population: "+feature.properties.hisp.toLocaleString())
             // console.log(feature.properties.chg);
           }
       }).addTo(layerGroup);
@@ -1166,13 +1634,13 @@
       hLayer.on('click',function(e){
         L.DomEvent.stopPropagation(e);
         // alert('click on json');
-        // console.log(e.layer.feature.properties.CD113FP)
-        updateBarChartDP(e.layer.feature.properties.CD113FP);
-        updateBarChartSF1(e.layer.feature.properties.CD113FP);
-        updateBarChartChg(e.layer.feature.properties.CD113FP);
-        document.getElementById("dpTag").innerHTML = "Differential Privacy - Population 18 Years and Over by Race - CD "+e.layer.feature.properties.CD113FP;
-        document.getElementById("sf1Tag").innerHTML = "SF1 - Population 18 Years and Over by Race - CD "+e.layer.feature.properties.CD113FP;
-        document.getElementById("chgTag").innerHTML = "Difference (DP - SF1) - Population 18 Years and Over by Race - CD "+e.layer.feature.properties.CD113FP;
+        // console.log(e.layer.feature.properties.DISTNUM)
+        updateBarChartDP(e.layer.feature.properties.DISTNUM);
+        updateBarChartSF1(e.layer.feature.properties.DISTNUM);
+        updateBarChartChg(e.layer.feature.properties.DISTNUM);
+        document.getElementById("dpTag").innerHTML = "Differential Privacy - Population 18 Years and Over by Race - District "+e.layer.feature.properties.DISTNUM;
+        document.getElementById("sf1Tag").innerHTML = "SF1 - Population 18 Years and Over by Race - District "+e.layer.feature.properties.DISTNUM;
+        document.getElementById("chgTag").innerHTML = "Difference (DP - SF1) - Population 18 Years and Over by Race - District "+e.layer.feature.properties.DISTNUM;
       });
 
     }
@@ -1187,9 +1655,9 @@
 
       var dataH = {},
       valuesH=[];
-      for (j=0; j<data.length; j++) {
-          dataH[data[j].CD113] = data[j].whitenh;
-          valuesH.push(data[j].whitenh);
+      for (j=0; j<chgdata.length; j++) {
+          dataH[chgdata[j].dist] = chgdata[j].whitenh;
+          valuesH.push(chgdata[j].whitenh);
       }
 
       var brewH = new classyBrew();
@@ -1205,20 +1673,20 @@
           opacity: 1,
           color: 'white',
           fillOpacity: 0.7,
-          fillColor: brewH.getColorInRange(dataH[feature.properties.CD113FP])
+          fillColor: brewH.getColorInRange(dataH[feature.properties.DISTNUM])
         };
       }
 
-      var wLayer = L.geoJson(cd113, {
+      var wLayer = L.geoJson(geo, {
         style: mapstyleH, 
         onEachFeature: function(feature, layer) {
-            for(i=0; i<7; i++){
-              if (feature.properties.CD113FP == data[i].CD113) {
-                feature.properties.whitenh = data[i].whitenh;
+            for(i=0; i<distnum; i++){
+              if (feature.properties.DISTNUM == chgdata[i].dist) {
+                feature.properties.whitenh = chgdata[i].whitenh;
 
               }
             }
-            layer.bindTooltip("CD "+feature.properties.CD113FP+"<br>Change in Population: "+feature.properties.whitenh.toLocaleString())
+            layer.bindTooltip("District "+feature.properties.DISTNUM+"<br>Change in Population: "+feature.properties.whitenh.toLocaleString())
             // console.log(feature.properties.chg);
           }
       }).addTo(layerGroup);
@@ -1251,13 +1719,13 @@
       wLayer.on('click',function(e){
         L.DomEvent.stopPropagation(e);
         // alert('click on json');
-        // console.log(e.layer.feature.properties.CD113FP)
-        updateBarChartDP(e.layer.feature.properties.CD113FP);
-        updateBarChartSF1(e.layer.feature.properties.CD113FP);
-        updateBarChartChg(e.layer.feature.properties.CD113FP);
-        document.getElementById("dpTag").innerHTML = "Differential Privacy - Population 18 Years and Over by Race - CD "+e.layer.feature.properties.CD113FP;
-        document.getElementById("sf1Tag").innerHTML = "SF1 - Population 18 Years and Over by Race - CD "+e.layer.feature.properties.CD113FP;
-        document.getElementById("chgTag").innerHTML = "Difference (DP - SF1) - Population 18 Years and Over by Race - CD "+e.layer.feature.properties.CD113FP;
+        // console.log(e.layer.feature.properties.DISTNUM)
+        updateBarChartDP(e.layer.feature.properties.DISTNUM);
+        updateBarChartSF1(e.layer.feature.properties.DISTNUM);
+        updateBarChartChg(e.layer.feature.properties.DISTNUM);
+        document.getElementById("dpTag").innerHTML = "Differential Privacy - Population 18 Years and Over by Race - District "+e.layer.feature.properties.DISTNUM;
+        document.getElementById("sf1Tag").innerHTML = "SF1 - Population 18 Years and Over by Race - District "+e.layer.feature.properties.DISTNUM;
+        document.getElementById("chgTag").innerHTML = "Difference (DP - SF1) - Population 18 Years and Over by Race - District "+e.layer.feature.properties.DISTNUM;
       });
 
     }
@@ -1272,9 +1740,9 @@
 
       var dataH = {},
       valuesH=[];
-      for (j=0; j<data.length; j++) {
-          dataH[data[j].CD113] = data[j].blacknh;
-          valuesH.push(data[j].blacknh);
+      for (j=0; j<chgdata.length; j++) {
+          dataH[chgdata[j].dist] = chgdata[j].blacknh;
+          valuesH.push(chgdata[j].blacknh);
       }
 
       var brewH = new classyBrew();
@@ -1290,20 +1758,20 @@
           opacity: 1,
           color: 'white',
           fillOpacity: 0.7,
-          fillColor: brewH.getColorInRange(dataH[feature.properties.CD113FP])
+          fillColor: brewH.getColorInRange(dataH[feature.properties.DISTNUM])
         };
       }
 
-      var bLayer = L.geoJson(cd113, {
+      var bLayer = L.geoJson(geo, {
         style: mapstyleH, 
         onEachFeature: function(feature, layer) {
-            for(i=0; i<7; i++){
-              if (feature.properties.CD113FP == data[i].CD113) {
-                feature.properties.blacknh = data[i].blacknh;
+            for(i=0; i<distnum; i++){
+              if (feature.properties.DISTNUM == chgdata[i].dist) {
+                feature.properties.blacknh = chgdata[i].blacknh;
 
               }
             }
-            layer.bindTooltip("CD "+feature.properties.CD113FP+"<br>Change in Population: "+feature.properties.blacknh.toLocaleString())
+            layer.bindTooltip("District "+feature.properties.DISTNUM+"<br>Change in Population: "+feature.properties.blacknh.toLocaleString())
             // console.log(feature.properties.chg);
           }
       }).addTo(layerGroup);
@@ -1335,13 +1803,13 @@
       bLayer.on('click',function(e){
         L.DomEvent.stopPropagation(e);
         // alert('click on json');
-        // console.log(e.layer.feature.properties.CD113FP)
-        updateBarChartDP(e.layer.feature.properties.CD113FP);
-        updateBarChartSF1(e.layer.feature.properties.CD113FP);
-        updateBarChartChg(e.layer.feature.properties.CD113FP);
-        document.getElementById("dpTag").innerHTML = "Differential Privacy - Population 18 Years and Over by Race - CD "+e.layer.feature.properties.CD113FP;
-        document.getElementById("sf1Tag").innerHTML = "SF1 - Population 18 Years and Over by Race - CD "+e.layer.feature.properties.CD113FP;
-        document.getElementById("chgTag").innerHTML = "Difference (DP - SF1) - Population 18 Years and Over by Race - CD "+e.layer.feature.properties.CD113FP;
+        // console.log(e.layer.feature.properties.DISTNUM)
+        updateBarChartDP(e.layer.feature.properties.DISTNUM);
+        updateBarChartSF1(e.layer.feature.properties.DISTNUM);
+        updateBarChartChg(e.layer.feature.properties.DISTNUM);
+        document.getElementById("dpTag").innerHTML = "Differential Privacy - Population 18 Years and Over by Race - District "+e.layer.feature.properties.DISTNUM;
+        document.getElementById("sf1Tag").innerHTML = "SF1 - Population 18 Years and Over by Race - District "+e.layer.feature.properties.DISTNUM;
+        document.getElementById("chgTag").innerHTML = "Difference (DP - SF1) - Population 18 Years and Over by Race - District "+e.layer.feature.properties.DISTNUM;
       });
 
     }
@@ -1356,9 +1824,9 @@
 
       var dataH = {},
       valuesH=[];
-      for (j=0; j<data.length; j++) {
-          dataH[data[j].CD113] = data[j].aiannh;
-          valuesH.push(data[j].aiannh);
+      for (j=0; j<chgdata.length; j++) {
+          dataH[chgdata[j].dist] = chgdata[j].aiannh;
+          valuesH.push(chgdata[j].aiannh);
       }
 
       var brewH = new classyBrew();
@@ -1374,20 +1842,20 @@
           opacity: 1,
           color: 'white',
           fillOpacity: 0.7,
-          fillColor: brewH.getColorInRange(dataH[feature.properties.CD113FP])
+          fillColor: brewH.getColorInRange(dataH[feature.properties.DISTNUM])
         };
       }
 
-      var AmInLayer = L.geoJson(cd113, {
+      var AmInLayer = L.geoJson(geo, {
         style: mapstyleH, 
         onEachFeature: function(feature, layer) {
-            for(i=0; i<7; i++){
-              if (feature.properties.CD113FP == data[i].CD113) {
-                feature.properties.aiannh = data[i].aiannh;
+            for(i=0; i<distnum; i++){
+              if (feature.properties.DISTNUM == chgdata[i].dist) {
+                feature.properties.aiannh = chgdata[i].aiannh;
 
               }
             }
-            layer.bindTooltip("CD "+feature.properties.CD113FP+"<br>Change in Population: "+feature.properties.aiannh.toLocaleString())
+            layer.bindTooltip("District "+feature.properties.DISTNUM+"<br>Change in Population: "+feature.properties.aiannh.toLocaleString())
             // console.log(feature.properties.chg);
           }
       }).addTo(layerGroup);
@@ -1419,13 +1887,13 @@
       AmInLayer.on('click',function(e){
         L.DomEvent.stopPropagation(e);
         // alert('click on json');
-        // console.log(e.layer.feature.properties.CD113FP)
-        updateBarChartDP(e.layer.feature.properties.CD113FP);
-        updateBarChartSF1(e.layer.feature.properties.CD113FP);
-        updateBarChartChg(e.layer.feature.properties.CD113FP);
-        document.getElementById("dpTag").innerHTML = "Differential Privacy - Population 18 Years and Over by Race - CD "+e.layer.feature.properties.CD113FP;
-        document.getElementById("sf1Tag").innerHTML = "SF1 - Population 18 Years and Over by Race - CD "+e.layer.feature.properties.CD113FP;
-        document.getElementById("chgTag").innerHTML = "Difference (DP - SF1) - Population 18 Years and Over by Race - CD "+e.layer.feature.properties.CD113FP;
+        // console.log(e.layer.feature.properties.DISTNUM)
+        updateBarChartDP(e.layer.feature.properties.DISTNUM);
+        updateBarChartSF1(e.layer.feature.properties.DISTNUM);
+        updateBarChartChg(e.layer.feature.properties.DISTNUM);
+        document.getElementById("dpTag").innerHTML = "Differential Privacy - Population 18 Years and Over by Race - District "+e.layer.feature.properties.DISTNUM;
+        document.getElementById("sf1Tag").innerHTML = "SF1 - Population 18 Years and Over by Race - District "+e.layer.feature.properties.DISTNUM;
+        document.getElementById("chgTag").innerHTML = "Difference (DP - SF1) - Population 18 Years and Over by Race - District "+e.layer.feature.properties.DISTNUM;
       });
 
     }
@@ -1441,9 +1909,9 @@
 
       var dataH = {},
       valuesH=[];
-      for (j=0; j<data.length; j++) {
-          dataH[data[j].CD113] = data[j].asiannh;
-          valuesH.push(data[j].asiannh);
+      for (j=0; j<chgdata.length; j++) {
+          dataH[chgdata[j].dist] = chgdata[j].asiannh;
+          valuesH.push(chgdata[j].asiannh);
       }
 
       var brewH = new classyBrew();
@@ -1459,20 +1927,20 @@
           opacity: 1,
           color: 'white',
           fillOpacity: 0.7,
-          fillColor: brewH.getColorInRange(dataH[feature.properties.CD113FP])
+          fillColor: brewH.getColorInRange(dataH[feature.properties.DISTNUM])
         };
       }
 
-      var aLayer = L.geoJson(cd113, {
+      var aLayer = L.geoJson(geo, {
         style: mapstyleH, 
         onEachFeature: function(feature, layer) {
-            for(i=0; i<7; i++){
-              if (feature.properties.CD113FP == data[i].CD113) {
-                feature.properties.asiannh = data[i].asiannh;
+            for(i=0; i<distnum; i++){
+              if (feature.properties.DISTNUM == chgdata[i].dist) {
+                feature.properties.asiannh = chgdata[i].asiannh;
 
               }
             }
-            layer.bindTooltip("CD "+feature.properties.CD113FP+"<br>Change in Population: "+feature.properties.asiannh.toLocaleString())
+            layer.bindTooltip("District "+feature.properties.DISTNUM+"<br>Change in Population: "+feature.properties.asiannh.toLocaleString())
             // console.log(feature.properties.chg);
           }
       }).addTo(layerGroup);
@@ -1503,12 +1971,12 @@
 
       aLayer.on('click',function(e){
         L.DomEvent.stopPropagation(e);
-        updateBarChartDP(e.layer.feature.properties.CD113FP);
-        updateBarChartSF1(e.layer.feature.properties.CD113FP);
-        updateBarChartChg(e.layer.feature.properties.CD113FP);
-        document.getElementById("dpTag").innerHTML = "Differential Privacy - Population 18 Years and Over by Race - CD "+e.layer.feature.properties.CD113FP;
-        document.getElementById("sf1Tag").innerHTML = "SF1 - Population 18 Years and Over by Race - CD "+e.layer.feature.properties.CD113FP;
-        document.getElementById("chgTag").innerHTML = "Difference (DP - SF1) - Population 18 Years and Over by Race - CD "+e.layer.feature.properties.CD113FP;
+        updateBarChartDP(e.layer.feature.properties.DISTNUM);
+        updateBarChartSF1(e.layer.feature.properties.DISTNUM);
+        updateBarChartChg(e.layer.feature.properties.DISTNUM);
+        document.getElementById("dpTag").innerHTML = "Differential Privacy - Population 18 Years and Over by Race - District "+e.layer.feature.properties.DISTNUM;
+        document.getElementById("sf1Tag").innerHTML = "SF1 - Population 18 Years and Over by Race - District "+e.layer.feature.properties.DISTNUM;
+        document.getElementById("chgTag").innerHTML = "Difference (DP - SF1) - Population 18 Years and Over by Race - District "+e.layer.feature.properties.DISTNUM;
       });
 
     }    
@@ -1523,9 +1991,9 @@
 
       var dataH = {},
       valuesH=[];
-      for (j=0; j<data.length; j++) {
-          dataH[data[j].CD113] = data[j].nhopinh;
-          valuesH.push(data[j].nhopinh);
+      for (j=0; j<chgdata.length; j++) {
+          dataH[chgdata[j].dist] = chgdata[j].nhopinh;
+          valuesH.push(chgdata[j].nhopinh);
       }
 
       var brewH = new classyBrew();
@@ -1541,20 +2009,20 @@
           opacity: 1,
           color: 'white',
           fillOpacity: 0.7,
-          fillColor: brewH.getColorInRange(dataH[feature.properties.CD113FP])
+          fillColor: brewH.getColorInRange(dataH[feature.properties.DISTNUM])
         };
       }
 
-      var nhLayer = L.geoJson(cd113, {
+      var nhLayer = L.geoJson(geo, {
         style: mapstyleH, 
         onEachFeature: function(feature, layer) {
-            for(i=0; i<7; i++){
-              if (feature.properties.CD113FP == data[i].CD113) {
-                feature.properties.nhopinh = data[i].nhopinh;
+            for(i=0; i<distnum; i++){
+              if (feature.properties.DISTNUM == chgdata[i].dist) {
+                feature.properties.nhopinh = chgdata[i].nhopinh;
 
               }
             }
-            layer.bindTooltip("CD "+feature.properties.CD113FP+"<br>Change in Population: "+feature.properties.nhopinh.toLocaleString())
+            layer.bindTooltip("District "+feature.properties.DISTNUM+"<br>Change in Population: "+feature.properties.nhopinh.toLocaleString())
             // console.log(feature.properties.chg);
           }
       }).addTo(layerGroup);
@@ -1585,12 +2053,12 @@
 
       nhLayer.on('click',function(e){
         L.DomEvent.stopPropagation(e);
-        updateBarChartDP(e.layer.feature.properties.CD113FP);
-        updateBarChartSF1(e.layer.feature.properties.CD113FP);
-        updateBarChartChg(e.layer.feature.properties.CD113FP);
-        document.getElementById("dpTag").innerHTML = "Differential Privacy - Population 18 Years and Over by Race - CD "+e.layer.feature.properties.CD113FP;
-        document.getElementById("sf1Tag").innerHTML = "SF1 - Population 18 Years and Over by Race - CD "+e.layer.feature.properties.CD113FP;
-        document.getElementById("chgTag").innerHTML = "Difference (DP - SF1) - Population 18 Years and Over by Race - CD "+e.layer.feature.properties.CD113FP;
+        updateBarChartDP(e.layer.feature.properties.DISTNUM);
+        updateBarChartSF1(e.layer.feature.properties.DISTNUM);
+        updateBarChartChg(e.layer.feature.properties.DISTNUM);
+        document.getElementById("dpTag").innerHTML = "Differential Privacy - Population 18 Years and Over by Race - District "+e.layer.feature.properties.DISTNUM;
+        document.getElementById("sf1Tag").innerHTML = "SF1 - Population 18 Years and Over by Race - District "+e.layer.feature.properties.DISTNUM;
+        document.getElementById("chgTag").innerHTML = "Difference (DP - SF1) - Population 18 Years and Over by Race - District "+e.layer.feature.properties.DISTNUM;
       });
     
     }    
@@ -1605,9 +2073,9 @@
 
       var dataH = {},
       valuesH=[];
-      for (j=0; j<data.length; j++) {
-          dataH[data[j].CD113] = data[j].othernh;
-          valuesH.push(data[j].othernh);
+      for (j=0; j<chgdata.length; j++) {
+          dataH[chgdata[j].dist] = chgdata[j].othernh;
+          valuesH.push(chgdata[j].othernh);
       }
 
       var brewH = new classyBrew();
@@ -1623,20 +2091,20 @@
           opacity: 1,
           color: 'white',
           fillOpacity: 0.7,
-          fillColor: brewH.getColorInRange(dataH[feature.properties.CD113FP])
+          fillColor: brewH.getColorInRange(dataH[feature.properties.DISTNUM])
         };
       }
 
-      var oLayer = L.geoJson(cd113, {
+      var oLayer = L.geoJson(geo, {
         style: mapstyleH, 
         onEachFeature: function(feature, layer) {
-            for(i=0; i<7; i++){
-              if (feature.properties.CD113FP == data[i].CD113) {
-                feature.properties.othernh = data[i].othernh;
+            for(i=0; i<distnum; i++){
+              if (feature.properties.DISTNUM == chgdata[i].dist) {
+                feature.properties.othernh = chgdata[i].othernh;
 
               }
             }
-            layer.bindTooltip("CD "+feature.properties.CD113FP+"<br>Change in Population: "+feature.properties.othernh.toLocaleString())
+            layer.bindTooltip("District "+feature.properties.DISTNUM+"<br>Change in Population: "+feature.properties.othernh.toLocaleString())
             // console.log(feature.properties.chg);
           }
       }).addTo(layerGroup);
@@ -1667,12 +2135,12 @@
 
       oLayer.on('click',function(e){
         L.DomEvent.stopPropagation(e);
-        updateBarChartDP(e.layer.feature.properties.CD113FP);
-        updateBarChartSF1(e.layer.feature.properties.CD113FP);
-        updateBarChartChg(e.layer.feature.properties.CD113FP);
-        document.getElementById("dpTag").innerHTML = "Differential Privacy - Population 18 Years and Over by Race - CD "+e.layer.feature.properties.CD113FP;
-        document.getElementById("sf1Tag").innerHTML = "SF1 - Population 18 Years and Over by Race - CD "+e.layer.feature.properties.CD113FP;
-        document.getElementById("chgTag").innerHTML = "Difference (DP - SF1) - Population 18 Years and Over by Race - CD "+e.layer.feature.properties.CD113FP;
+        updateBarChartDP(e.layer.feature.properties.DISTNUM);
+        updateBarChartSF1(e.layer.feature.properties.DISTNUM);
+        updateBarChartChg(e.layer.feature.properties.DISTNUM);
+        document.getElementById("dpTag").innerHTML = "Differential Privacy - Population 18 Years and Over by Race - District "+e.layer.feature.properties.DISTNUM;
+        document.getElementById("sf1Tag").innerHTML = "SF1 - Population 18 Years and Over by Race - District "+e.layer.feature.properties.DISTNUM;
+        document.getElementById("chgTag").innerHTML = "Difference (DP - SF1) - Population 18 Years and Over by Race - District "+e.layer.feature.properties.DISTNUM;
       });
 
     }   
@@ -1687,9 +2155,9 @@
 
       var dataH = {},
       valuesH=[];
-      for (j=0; j<data.length; j++) {
-          dataH[data[j].CD113] = data[j].twoplusnh;
-          valuesH.push(data[j].twoplusnh);
+      for (j=0; j<chgdata.length; j++) {
+          dataH[chgdata[j].dist] = chgdata[j].twoplusnh;
+          valuesH.push(chgdata[j].twoplusnh);
       }
 
       var brewH = new classyBrew();
@@ -1705,20 +2173,20 @@
           opacity: 1,
           color: 'white',
           fillOpacity: 0.7,
-          fillColor: brewH.getColorInRange(dataH[feature.properties.CD113FP])
+          fillColor: brewH.getColorInRange(dataH[feature.properties.DISTNUM])
         };
       }
 
-      var twoLayer = L.geoJson(cd113, {
+      var twoLayer = L.geoJson(geo, {
         style: mapstyleH, 
         onEachFeature: function(feature, layer) {
-            for(i=0; i<7; i++){
-              if (feature.properties.CD113FP == data[i].CD113) {
-                feature.properties.twoplusnh = data[i].twoplusnh;
+            for(i=0; i<distnum; i++){
+              if (feature.properties.DISTNUM == chgdata[i].dist) {
+                feature.properties.twoplusnh = chgdata[i].twoplusnh;
 
               }
             }
-            layer.bindTooltip("CD "+feature.properties.CD113FP+"<br>Change in Population: "+feature.properties.twoplusnh.toLocaleString())
+            layer.bindTooltip("District "+feature.properties.DISTNUM+"<br>Change in Population: "+feature.properties.twoplusnh.toLocaleString())
             // console.log(feature.properties.chg);
           }
       }).addTo(layerGroup);
@@ -1749,12 +2217,12 @@
 
       twoLayer.on('click',function(e){
         L.DomEvent.stopPropagation(e);
-        updateBarChartDP(e.layer.feature.properties.CD113FP);
-        updateBarChartSF1(e.layer.feature.properties.CD113FP);
-        updateBarChartChg(e.layer.feature.properties.CD113FP);
-        document.getElementById("dpTag").innerHTML = "Differential Privacy - Population 18 Years and Over by Race - CD "+e.layer.feature.properties.CD113FP;
-        document.getElementById("sf1Tag").innerHTML = "SF1 - Population 18 Years and Over by Race - CD "+e.layer.feature.properties.CD113FP;
-        document.getElementById("chgTag").innerHTML = "Difference (DP - SF1) - Population 18 Years and Over by Race - CD "+e.layer.feature.properties.CD113FP;
+        updateBarChartDP(e.layer.feature.properties.DISTNUM);
+        updateBarChartSF1(e.layer.feature.properties.DISTNUM);
+        updateBarChartChg(e.layer.feature.properties.DISTNUM);
+        document.getElementById("dpTag").innerHTML = "Differential Privacy - Population 18 Years and Over by Race - District "+e.layer.feature.properties.DISTNUM;
+        document.getElementById("sf1Tag").innerHTML = "SF1 - Population 18 Years and Over by Race - District "+e.layer.feature.properties.DISTNUM;
+        document.getElementById("chgTag").innerHTML = "Difference (DP - SF1) - Population 18 Years and Over by Race - District "+e.layer.feature.properties.DISTNUM;
       });
       
     }   
@@ -1766,12 +2234,12 @@
     origLayer = function() {
 
       layerGroup.clearLayers();
-
+$("#raceEthnicity").val("tp");
       var data1 = {},
       values=[];
-      for (j=0; j<data.length; j++) {
-          data1[data[j].CD113] = data[j].chg;
-          values.push(data[j].chg);
+      for (j=0; j<chgdata.length; j++) {
+          data1[chgdata[j].dist] = chgdata[j].chg;
+          values.push(chgdata[j].chg);
       }
 
       var brew = new classyBrew();
@@ -1787,21 +2255,23 @@
           opacity: 1,
           color: 'white',
           fillOpacity: 0.7,
-          fillColor: brew.getColorInRange(data1[feature.properties.CD113FP])
+          fillColor: brew.getColorInRange(data1[feature.properties.DISTNUM])
         };
       }
 
-      var origLayer = L.geoJson(cd113, {
-        style: mapstyle, 
+      var origLayer = L.geoJson(geo, {
+          style: mapstyle, 
         onEachFeature: function(feature, layer) {
-            for(i=0; i<7; i++){
-              if (feature.properties.CD113FP == data[i].CD113) {
-                feature.properties.chg = data[i].chg;
-                feature.properties.hisp = data[i].hisp;
+            for(i=0; i<distnum; i++){
+             
+                if (feature.properties.DISTNUM == chgdata[i].dist) { 
+                  feature.properties.chg = chgdata[i].chg;
+                feature.properties.hisp = chgdata[i].hisp;
+                                                                    
               }
             }
-            layer.bindTooltip("CD "+feature.properties.CD113FP+"<br>Change in Population: "+feature.properties.chg.toLocaleString())
-            // console.log(feature.properties.chg);
+            layer.bindTooltip("District "+feature.properties.DISTNUM+"<br>Change in Population: "+feature.properties.chg.toLocaleString())
+             //console.log(feature.properties.chg);
           }
       }).addTo(layerGroup);
 
@@ -1830,13 +2300,13 @@
       legend.addTo(map);
 
       origLayer.on('click',function(e){
-        L.DomEvent.stopPropagation(e);
-        updateBarChartDP(e.layer.feature.properties.CD113FP);
-        updateBarChartSF1(e.layer.feature.properties.CD113FP);
-        updateBarChartChg(e.layer.feature.properties.CD113FP);
-        document.getElementById("dpTag").innerHTML = "Differential Privacy - Population 18 Years and Over by Race - CD "+e.layer.feature.properties.CD113FP;
-        document.getElementById("sf1Tag").innerHTML = "SF1 - Population 18 Years and Over by Race - CD "+e.layer.feature.properties.CD113FP;
-        document.getElementById("chgTag").innerHTML = "Difference (DP - SF1) - Population 18 Years and Over by Race - CD "+e.layer.feature.properties.CD113FP;
+        L.DomEvent.stopPropagation(e); 
+        updateBarChartDP(e.layer.feature.properties.DISTNUM);
+        updateBarChartSF1(e.layer.feature.properties.DISTNUM);
+        updateBarChartChg(e.layer.feature.properties.DISTNUM);
+        document.getElementById("dpTag").innerHTML = "Differential Privacy - Population 18 Years and Over by Race - District "+e.layer.feature.properties.DISTNUM;
+        document.getElementById("sf1Tag").innerHTML = "SF1 - Population 18 Years and Over by Race - District "+e.layer.feature.properties.DISTNUM;
+        document.getElementById("chgTag").innerHTML = "Difference (DP - SF1) - Population 18 Years and Over by Race - District "+e.layer.feature.properties.DISTNUM;
       });
 
     }  
@@ -1884,7 +2354,47 @@
         tomnhLayer();
       };      
 
+    }); 
+        
+    $("#districtType").on('change', function(){
+      // console.log($(this).val());
+
+      if ($(this).val() == 'cd'){
+        geo = cd;
+        //DISTNUM = "CD113FP";
+        dist = "CD113";
+        distnum = 7;
+        chgdata = cd_data;
+        datasf1 = cd_sf1;
+        dataDP = cd_dp;
+          origLayer();
+      };
+
+      if ($(this).val() == 'sldu'){
+        geo = sldu;
+        //DISTNUM = "SLDUST";
+        dist = "sldu";
+        distnum = 35;
+        chgdata = sldu_data;
+        datasf1 = sldu_sf1;
+        dataDP = sldu_dp;
+        origLayer();
+          
+      };
+
+      if ($(this).val() == 'sldl'){
+        geo = sldl;console.log("sldl");
+        //DISTNUM = "SLDLST";
+        dist = "sldl";
+        distnum = 65;
+        chgdata = sldl_data;
+        datasf1 = sldl_sf1;
+        dataDP = sldl_dp;
+          origLayer();
+      };
+
     });       
+
 
     // *********************************************************************
     // Miscellaneous functions
@@ -1914,6 +2424,8 @@
 	    }
 	  })
 	}
+        
+    
 
     </script>
   </body>
