@@ -1290,83 +1290,406 @@ var cd_dp = [
  }
 ];
         
-        var sldu_dp = [
+var sldu_dp = [
  {
-   dist: '1',   hisp: 16689,   whitenh: 86887,   blacknh: 2086,   aiannh: 1050,   asiannh: 391,   nhopinh: 90,   othernh: 67,   twoplusnh: 831
- }, {
-   dist: '2',   hisp: 10606,   whitenh: 93639,   blacknh: 3926,   aiannh: 1278,   asiannh: 1146,   nhopinh: 108,   othernh: 156,   twoplusnh: 1613
- }, {
-   dist: '3',   hisp: 41968,   whitenh: 58511,   blacknh: 2019,   aiannh: 692,   asiannh: 887,   nhopinh: 102,   othernh: 72,   twoplusnh: 1119
- }, {
-   dist: '4',   hisp: 6549,   whitenh: 88071,   blacknh: 1144,   aiannh: 388,   asiannh: 1997,   nhopinh: 21,   othernh: 58,   twoplusnh: 1172
- }, {
-   dist: '5',   hisp: 17837,   whitenh: 90217,   blacknh: 657,   aiannh: 343,   asiannh: 965,   nhopinh: 11,   othernh: 327,   twoplusnh: 926
- }, {
-   dist: '6',   hisp: 12813,   whitenh: 93170,   blacknh: 230,   aiannh: 4461,   asiannh: 546,   nhopinh: 145,   othernh: 96,   twoplusnh: 1378
- }, {
-   dist: '7',   hisp: 12311,   whitenh: 96352,   blacknh: 534,   aiannh: 693,   asiannh: 895,   nhopinh: 63,   othernh: 69,   twoplusnh: 1277
- }, {
-   dist: '8',   hisp: 16091,   whitenh: 91957,   blacknh: 554,   aiannh: 472,   asiannh: 672,   nhopinh: 11,   othernh: 101,   twoplusnh: 1077
- }, {
-   dist: '9',   hisp: 6781,   whitenh: 91128,   blacknh: 1976,   aiannh: 511,   asiannh: 3470,   nhopinh: 147,   othernh: 70,   twoplusnh: 1920
- }, {
-   dist: '10',   hisp: 12535,   whitenh: 84833,   blacknh: 4505,   aiannh: 543,   asiannh: 3414,   nhopinh: 185,   othernh: 119,   twoplusnh: 2237
- }, {
-   dist: '11',   hisp: 21870,   whitenh: 67315,   blacknh: 10316,   aiannh: 787,   asiannh: 2533,   nhopinh: 366,   othernh: 193,   twoplusnh: 2968
- }, {
-   dist: '12',   hisp: 12307,   whitenh: 77829,   blacknh: 7198,   aiannh: 587,   asiannh: 2953,   nhopinh: 574,   othernh: 153,   twoplusnh: 2607
- }, {
-   dist: '13',   hisp: 33727,   whitenh: 67194,   blacknh: 1106,   aiannh: 539,   asiannh: 1316,   nhopinh: 109,   othernh: 139,   twoplusnh: 1127
- }, {
-   dist: '14',   hisp: 10499,   whitenh: 99769,   blacknh: 1291,   aiannh: 465,   asiannh: 3445,   nhopinh: 65,   othernh: 162,   twoplusnh: 1935
- }, {
-   dist: '15',   hisp: 9007,   whitenh: 96993,   blacknh: 436,   aiannh: 398,   asiannh: 828,   nhopinh: 111,   othernh: 83,   twoplusnh: 1103
- }, {
-   dist: '16',   hisp: 9790,   whitenh: 97774,   blacknh: 981,   aiannh: 571,   asiannh: 3906,   nhopinh: 98,   othernh: 185,   twoplusnh: 1248
- }, {
-   dist: '17',   hisp: 17152,   whitenh: 80377,   blacknh: 922,   aiannh: 469,   asiannh: 3445,   nhopinh: 47,   othernh: 155,   twoplusnh: 1178
- }, {
-   dist: '18',   hisp: 7531,   whitenh: 102703,   blacknh: 812,   aiannh: 270,   asiannh: 4732,   nhopinh: 30,   othernh: 223,   twoplusnh: 1765
- }, {
-   dist: '19',   hisp: 12587,   whitenh: 89349,   blacknh: 979,   aiannh: 475,   asiannh: 3153,   nhopinh: 89,   othernh: 184,   twoplusnh: 1434
- }, {
-   dist: '20',   hisp: 12252,   whitenh: 98213,   blacknh: 829,   aiannh: 525,   asiannh: 2302,   nhopinh: 78,   othernh: 71,   twoplusnh: 1132
- }, {
-   dist: '21',   hisp: 45608,   whitenh: 51636,   blacknh: 1442,   aiannh: 606,   asiannh: 3400,   nhopinh: 172,   othernh: 91,   twoplusnh: 1094
- }, {
-   dist: '22',   hisp: 21237,   whitenh: 85421,   blacknh: 1418,   aiannh: 788,   asiannh: 3345,   nhopinh: 68,   othernh: 95,   twoplusnh: 1325
- }, {
-   dist: '23',   hisp: 10780,   whitenh: 87013,   blacknh: 731,   aiannh: 362,   asiannh: 3426,   nhopinh: 45,   othernh: 13,   twoplusnh: 998
- }, {
-   dist: '24',   hisp: 21562,   whitenh: 77737,   blacknh: 1751,   aiannh: 582,   asiannh: 5065,   nhopinh: 74,   othernh: 194,   twoplusnh: 1463
- }, {
-   dist: '25',   hisp: 37108,   whitenh: 55206,   blacknh: 5550,   aiannh: 626,   asiannh: 2882,   nhopinh: 89,   othernh: 204,   twoplusnh: 1351
- }, {
-   dist: '26',   hisp: 13856,   whitenh: 85277,   blacknh: 6242,   aiannh: 614,   asiannh: 4436,   nhopinh: 152,   othernh: 116,   twoplusnh: 1772
- }, {
-   dist: '27',   hisp: 6910,   whitenh: 83898,   blacknh: 3791,   aiannh: 354,   asiannh: 6436,   nhopinh: 132,   othernh: 138,   twoplusnh: 1383
- }, {
-   dist: '28',   hisp: 14922,   whitenh: 65541,   blacknh: 12153,   aiannh: 372,   asiannh: 6743,   nhopinh: 184,   othernh: 264,   twoplusnh: 2152
- }, {
-   dist: '29',   hisp: 28259,   whitenh: 49638,   blacknh: 16704,   aiannh: 569,   asiannh: 3570,   nhopinh: 229,   othernh: 54,   twoplusnh: 2122
- }, {
-   dist: '30',   hisp: 6266,   whitenh: 84648,   blacknh: 1182,   aiannh: 229,   asiannh: 5294,   nhopinh: 74,   othernh: 130,   twoplusnh: 1248
- }, {
-   dist: '31',   hisp: 14184,   whitenh: 92318,   blacknh: 10538,   aiannh: 412,   asiannh: 4588,   nhopinh: 142,   othernh: 315,   twoplusnh: 2414
- }, {
-   dist: '32',   hisp: 30650,   whitenh: 77138,   blacknh: 1801,   aiannh: 768,   asiannh: 4512,   nhopinh: 103,   othernh: 204,   twoplusnh: 1411
- }, {
-   dist: '33',   hisp: 29446,   whitenh: 40668,   blacknh: 28162,   aiannh: 505,   asiannh: 3440,   nhopinh: 121,   othernh: 146,   twoplusnh: 2338
- }, {
-   dist: '34',   hisp: 46828,   whitenh: 53588,   blacknh: 3156,   aiannh: 977,   asiannh: 2699,   nhopinh: 79,   othernh: 31,   twoplusnh: 1438
- }, {
-   dist: '35',   hisp: 35679,   whitenh: 68477,   blacknh: 1768,   aiannh: 602,   asiannh: 479,   nhopinh: 67,   othernh: 185,   twoplusnh: 1160
- }, {
-   dist: 'CO',   hisp: 664197,   whitenh: 2810485,   blacknh: 138890,   aiannh: 23883,   asiannh: 103311,   nhopinh: 4181,   othernh: 4863,   twoplusnh: 53716
+   dist: '1',
+   hisp: 15651,
+   whitenh: 74935,
+   blacknh: 1996,
+   aiannh: 508,
+   asiannh: 446,
+   nhopinh: 35,
+   othernh: 48,
+   twoplusnh: 727
+ },
+ {
+   dist: '2',
+   hisp: 22569,
+   whitenh: 72259,
+   blacknh: 3158,
+   aiannh: 1122,
+   asiannh: 551,
+   nhopinh: 37,
+   othernh: 67,
+   twoplusnh: 997
+ },
+ {
+   dist: '3',
+   hisp: 41689,
+   whitenh: 60168,
+   blacknh: 2055,
+   aiannh: 643,
+   asiannh: 877,
+   nhopinh: 76,
+   othernh: 165,
+   twoplusnh: 1213
+ },
+ {
+   dist: '4',
+   hisp: 8522,
+   whitenh: 118165,
+   blacknh: 1069,
+   aiannh: 605,
+   asiannh: 1874,
+   nhopinh: 76,
+   othernh: 142,
+   twoplusnh: 1605
+ },
+ {
+   dist: '5',
+   hisp: 21284,
+   whitenh: 76469,
+   blacknh: 638,
+   aiannh: 612,
+   asiannh: 677,
+   nhopinh: 57,
+   othernh: 133,
+   twoplusnh: 1040
+ },
+ {
+   dist: '6',
+   hisp: 12878,
+   whitenh: 93194,
+   blacknh: 301,
+   aiannh: 4310,
+   asiannh: 632,
+   nhopinh: 70,
+   othernh: 130,
+   twoplusnh: 1399
+ },
+ {
+   dist: '7',
+   hisp: 12991,
+   whitenh: 99236,
+   blacknh: 581,
+   aiannh: 769,
+   asiannh: 857,
+   nhopinh: 129,
+   othernh: 86,
+   twoplusnh: 1284
+ },
+ {
+   dist: '8',
+   hisp: 21923,
+   whitenh: 86912,
+   blacknh: 503,
+   aiannh: 444,
+   asiannh: 800,
+   nhopinh: 62,
+   othernh: 142,
+   twoplusnh: 916
+ },
+ {
+   dist: '9',
+   hisp: 10039,
+   whitenh: 91941,
+   blacknh: 3839,
+   aiannh: 551,
+   asiannh: 4009,
+   nhopinh: 187,
+   othernh: 141,
+   twoplusnh: 2536
+ },
+ {
+   dist: '10',
+   hisp: 14807,
+   whitenh: 91466,
+   blacknh: 6368,
+   aiannh: 701,
+   asiannh: 3301,
+   nhopinh: 316,
+   othernh: 185,
+   twoplusnh: 2680
+ },
+ {
+   dist: '11',
+   hisp: 19135,
+   whitenh: 60897,
+   blacknh: 8577,
+   aiannh: 731,
+   asiannh: 2179,
+   nhopinh: 314,
+   othernh: 198,
+   twoplusnh: 2504
+ },
+ {
+   dist: '12',
+   hisp: 12592,
+   whitenh: 79295,
+   blacknh: 6828,
+   aiannh: 716,
+   asiannh: 3019,
+   nhopinh: 536,
+   othernh: 131,
+   twoplusnh: 2458
+ },
+ {
+   dist: '13',
+   hisp: 30177,
+   whitenh: 81509,
+   blacknh: 1158,
+   aiannh: 517,
+   asiannh: 1221,
+   nhopinh: 73,
+   othernh: 160,
+   twoplusnh: 1214
+ },
+ {
+   dist: '14',
+   hisp: 10093,
+   whitenh: 98880,
+   blacknh: 1233,
+   aiannh: 389,
+   asiannh: 3064,
+   nhopinh: 94,
+   othernh: 159,
+   twoplusnh: 1850
+ },
+ {
+   dist: '15',
+   hisp: 10165,
+   whitenh: 106038,
+   blacknh: 461,
+   aiannh: 574,
+   asiannh: 1251,
+   nhopinh: 63,
+   othernh: 84,
+   twoplusnh: 1115
+ },
+ {
+   dist: '16',
+   hisp: 6276,
+   whitenh: 96909,
+   blacknh: 471,
+   aiannh: 360,
+   asiannh: 2273,
+   nhopinh: 60,
+   othernh: 109,
+   twoplusnh: 996
+ },
+ {
+   dist: '17',
+   hisp: 17208,
+   whitenh: 81252,
+   blacknh: 772,
+   aiannh: 451,
+   asiannh: 3516,
+   nhopinh: 43,
+   othernh: 122,
+   twoplusnh: 1144
+ },
+ {
+   dist: '18',
+   hisp: 6996,
+   whitenh: 89093,
+   blacknh: 910,
+   aiannh: 290,
+   asiannh: 4423,
+   nhopinh: 56,
+   othernh: 163,
+   twoplusnh: 1581
+ },
+ {
+   dist: '19',
+   hisp: 10386,
+   whitenh: 76667,
+   blacknh: 747,
+   aiannh: 325,
+   asiannh: 2729,
+   nhopinh: 76,
+   othernh: 131,
+   twoplusnh: 997
+ },
+ {
+   dist: '20',
+   hisp: 12549,
+   whitenh: 77606,
+   blacknh: 1013,
+   aiannh: 572,
+   asiannh: 2052,
+   nhopinh: 64,
+   othernh: 94,
+   twoplusnh: 1223
+ },
+ {
+   dist: '21',
+   hisp: 18416,
+   whitenh: 69839,
+   blacknh: 1337,
+   aiannh: 693,
+   asiannh: 2864,
+   nhopinh: 81,
+   othernh: 92,
+   twoplusnh: 1100
+ },
+ {
+   dist: '22',
+   hisp: 7401,
+   whitenh: 85042,
+   blacknh: 562,
+   aiannh: 316,
+   asiannh: 2339,
+   nhopinh: 42,
+   othernh: 92,
+   twoplusnh: 992
+ },
+ {
+   dist: '23',
+   hisp: 21361,
+   whitenh: 107388,
+   blacknh: 1176,
+   aiannh: 898,
+   asiannh: 4991,
+   nhopinh: 111,
+   othernh: 153,
+   twoplusnh: 1511
+ },
+ {
+   dist: '24',
+   hisp: 35327,
+   whitenh: 68532,
+   blacknh: 1841,
+   aiannh: 702,
+   asiannh: 4245,
+   nhopinh: 97,
+   othernh: 129,
+   twoplusnh: 1420
+ },
+ {
+   dist: '25',
+   hisp: 44955,
+   whitenh: 68719,
+   blacknh: 5913,
+   aiannh: 767,
+   asiannh: 3309,
+   nhopinh: 137,
+   othernh: 168,
+   twoplusnh: 1599
+ },
+ {
+   dist: '26',
+   hisp: 10092,
+   whitenh: 76338,
+   blacknh: 1292,
+   aiannh: 495,
+   asiannh: 1757,
+   nhopinh: 91,
+   othernh: 104,
+   twoplusnh: 1287
+ },
+ {
+   dist: '27',
+   hisp: 10661,
+   whitenh: 105604,
+   blacknh: 7032,
+   aiannh: 424,
+   asiannh: 9634,
+   nhopinh: 183,
+   othernh: 127,
+   twoplusnh: 2072
+ },
+ {
+   dist: '28',
+   hisp: 13880,
+   whitenh: 64252,
+   blacknh: 12426,
+   aiannh: 438,
+   asiannh: 5608,
+   nhopinh: 200,
+   othernh: 156,
+   twoplusnh: 2106
+ },
+ {
+   dist: '29',
+   hisp: 29335,
+   whitenh: 38227,
+   blacknh: 18281,
+   aiannh: 499,
+   asiannh: 4257,
+   nhopinh: 233,
+   othernh: 173,
+   twoplusnh: 2032
+ },
+ {
+   dist: '30',
+   hisp: 8580,
+   whitenh: 111351,
+   blacknh: 1697,
+   aiannh: 373,
+   asiannh: 6227,
+   nhopinh: 91,
+   othernh: 152,
+   twoplusnh: 1589
+ },
+ {
+   dist: '31',
+   hisp: 31261,
+   whitenh: 66281,
+   blacknh: 2877,
+   aiannh: 734,
+   asiannh: 3652,
+   nhopinh: 98,
+   othernh: 176,
+   twoplusnh: 1591
+ },
+ {
+   dist: '32',
+   hisp: 24518,
+   whitenh: 73159,
+   blacknh: 1963,
+   aiannh: 566,
+   asiannh: 3834,
+   nhopinh: 83,
+   othernh: 152,
+   twoplusnh: 1304
+ },
+ {
+   dist: '33',
+   hisp: 33183,
+   whitenh: 48557,
+   blacknh: 28392,
+   aiannh: 638,
+   asiannh: 3734,
+   nhopinh: 122,
+   othernh: 234,
+   twoplusnh: 2455
+ },
+ {
+   dist: '34',
+   hisp: 44740,
+   whitenh: 36306,
+   blacknh: 1585,
+   aiannh: 784,
+   asiannh: 2288,
+   nhopinh: 48,
+   othernh: 162,
+   twoplusnh: 1037
+ },
+ {
+   dist: '35',
+   hisp: 12842,
+   whitenh: 78025,
+   blacknh: 9756,
+   aiannh: 430,
+   asiannh: 4857,
+   nhopinh: 94,
+   othernh: 202,
+   twoplusnh: 1937
+ },
+ {
+   dist: 'CO',
+   hisp: 664482,
+   whitenh: 2810511,
+   blacknh: 138808,
+   aiannh: 23947,
+   asiannh: 103347,
+   nhopinh: 4135,
+   othernh: 4862,
+   twoplusnh: 53511
  }
 ];
         
-        var sldl_data = [
+var sldl_data = [
  {
    dist: '1',
    chg: -14,
@@ -2151,137 +2474,730 @@ var cd_dp = [
         
         var sldl_sf1 = [
  {
-   dist: '1',   hisp: 24287,   whitenh: 26927,   blacknh: 805,   aiannh: 420,   asiannh: 2778,   nhopinh: 47,   othernh: 88,   twoplusnh: 541
- }, {
-   dist: '2',   hisp: 6392,   whitenh: 55990,   blacknh: 1782,   aiannh: 324,   asiannh: 1945,   nhopinh: 39,   othernh: 107,   twoplusnh: 1201
- }, {
-   dist: '3',   hisp: 7915,   whitenh: 46804,   blacknh: 1073,   aiannh: 351,   asiannh: 2244,   nhopinh: 54,   othernh: 83,   twoplusnh: 849
- }, {
-   dist: '4',   hisp: 26492,   whitenh: 27267,   blacknh: 1032,   aiannh: 518,   asiannh: 1028,   nhopinh: 26,   othernh: 112,   twoplusnh: 585
- }, {
-   dist: '5',   hisp: 26206,   whitenh: 26828,   blacknh: 2694,   aiannh: 497,   asiannh: 1808,   nhopinh: 50,   othernh: 107,   twoplusnh: 845
- }, {
-   dist: '6',   hisp: 5758,   whitenh: 45705,   blacknh: 5843,   aiannh: 209,   asiannh: 2583,   nhopinh: 44,   othernh: 103,   twoplusnh: 966
- }, {
-   dist: '7',   hisp: 19015,   whitenh: 15216,   blacknh: 14476,   aiannh: 235,   asiannh: 2004,   nhopinh: 97,   othernh: 85,   twoplusnh: 1075
- }, {
-   dist: '8',   hisp: 9619,   whitenh: 36622,   blacknh: 12035,   aiannh: 348,   asiannh: 1183,   nhopinh: 28,   othernh: 128,   twoplusnh: 1356
- }, {
-   dist: '9',   hisp: 8403,   whitenh: 44331,   blacknh: 5328,   aiannh: 277,   asiannh: 2871,   nhopinh: 45,   othernh: 129,   twoplusnh: 1277
- }, {
-   dist: '10',   hisp: 5327,   whitenh: 53643,   blacknh: 670,   aiannh: 202,   asiannh: 3414,   nhopinh: 45,   othernh: 120,   twoplusnh: 1117
- }, {
-   dist: '11',   hisp: 8914,   whitenh: 45604,   blacknh: 368,   aiannh: 267,   asiannh: 1591,   nhopinh: 30,   othernh: 47,   twoplusnh: 594
- }, {
-   dist: '12',   hisp: 8412,   whitenh: 44117,   blacknh: 421,   aiannh: 230,   asiannh: 1893,   nhopinh: 21,   othernh: 75,   twoplusnh: 611
- }, {
-   dist: '13',   hisp: 2794,   whitenh: 58517,   blacknh: 322,   aiannh: 236,   asiannh: 1163,   nhopinh: 35,   othernh: 70,   twoplusnh: 783
- }, {
-   dist: '14',   hisp: 4429,   whitenh: 43841,   blacknh: 1898,   aiannh: 256,   asiannh: 2407,   nhopinh: 96,   othernh: 72,   twoplusnh: 1109
- }, {
-   dist: '15',   hisp: 6503,   whitenh: 39356,   blacknh: 3370,   aiannh: 269,   asiannh: 2156,   nhopinh: 183,   othernh: 101,   twoplusnh: 1300
- }, {
-   dist: '16',   hisp: 7130,   whitenh: 48106,   blacknh: 2466,   aiannh: 363,   asiannh: 1343,   nhopinh: 99,   othernh: 98,   twoplusnh: 1236
- }, {
-   dist: '17',   hisp: 15674,   whitenh: 28102,   blacknh: 7747,   aiannh: 420,   asiannh: 1727,   nhopinh: 266,   othernh: 107,   twoplusnh: 1793
- }, {
-   dist: '18',   hisp: 7567,   whitenh: 51630,   blacknh: 2543,   aiannh: 475,   asiannh: 970,   nhopinh: 79,   othernh: 93,   twoplusnh: 1393
- }, {
-   dist: '19',   hisp: 3199,   whitenh: 49241,   blacknh: 846,   aiannh: 299,   asiannh: 844,   nhopinh: 49,   othernh: 67,   twoplusnh: 908
- }, {
-   dist: '20',   hisp: 5371,   whitenh: 50984,   blacknh: 1946,   aiannh: 250,   asiannh: 2054,   nhopinh: 140,   othernh: 80,   twoplusnh: 1278
- }, {
-   dist: '21',   hisp: 7916,   whitenh: 36255,   blacknh: 5104,   aiannh: 437,   asiannh: 1523,   nhopinh: 436,   othernh: 78,   twoplusnh: 1509
- }, {
-   dist: '22',   hisp: 4536,   whitenh: 49643,   blacknh: 361,   aiannh: 178,   asiannh: 1446,   nhopinh: 30,   othernh: 65,   twoplusnh: 567
- }, {
-   dist: '23',   hisp: 9720,   whitenh: 49042,   blacknh: 822,   aiannh: 436,   asiannh: 1426,   nhopinh: 65,   othernh: 59,   twoplusnh: 782
- }, {
-   dist: '24',   hisp: 7986,   whitenh: 49975,   blacknh: 593,   aiannh: 338,   asiannh: 1421,   nhopinh: 50,   othernh: 64,   twoplusnh: 756
- }, {
-   dist: '25',   hisp: 2678,   whitenh: 54896,   blacknh: 222,   aiannh: 178,   asiannh: 712,   nhopinh: 30,   othernh: 60,   twoplusnh: 485
- }, {
-   dist: '26',   hisp: 11193,   whitenh: 45357,   blacknh: 284,   aiannh: 159,   asiannh: 498,   nhopinh: 30,   othernh: 73,   twoplusnh: 403
- }, {
-   dist: '27',   hisp: 5085,   whitenh: 51636,   blacknh: 339,   aiannh: 223,   asiannh: 963,   nhopinh: 21,   othernh: 50,   twoplusnh: 605
- }, {
-   dist: '28',   hisp: 12146,   whitenh: 42737,   blacknh: 840,   aiannh: 409,   asiannh: 2258,   nhopinh: 50,   othernh: 87,   twoplusnh: 731
- }, {
-   dist: '29',   hisp: 7932,   whitenh: 45694,   blacknh: 568,   aiannh: 245,   asiannh: 2196,   nhopinh: 50,   othernh: 66,   twoplusnh: 724
- }, {
-   dist: '30',   hisp: 18956,   whitenh: 26218,   blacknh: 4780,   aiannh: 299,   asiannh: 2131,   nhopinh: 122,   othernh: 59,   twoplusnh: 829
- }, {
-   dist: '31',   hisp: 16823,   whitenh: 35261,   blacknh: 890,   aiannh: 329,   asiannh: 1955,   nhopinh: 52,   othernh: 79,   twoplusnh: 702
- }, {
-   dist: '32',   hisp: 27024,   whitenh: 22952,   blacknh: 914,   aiannh: 378,   asiannh: 1163,   nhopinh: 51,   othernh: 80,   twoplusnh: 540
- }, {
-   dist: '33',   hisp: 4868,   whitenh: 46067,   blacknh: 504,   aiannh: 214,   asiannh: 3926,   nhopinh: 38,   othernh: 49,   twoplusnh: 693
- }, {
-   dist: '34',   hisp: 16172,   whitenh: 35147,   blacknh: 952,   aiannh: 368,   asiannh: 2294,   nhopinh: 44,   othernh: 78,   twoplusnh: 721
- }, {
-   dist: '35',   hisp: 15476,   whitenh: 39280,   blacknh: 795,   aiannh: 296,   asiannh: 3082,   nhopinh: 46,   othernh: 87,   twoplusnh: 681
- }, {
-   dist: '36',   hisp: 9971,   whitenh: 29816,   blacknh: 8136,   aiannh: 257,   asiannh: 3620,   nhopinh: 140,   othernh: 82,   twoplusnh: 1184
- }, {
-   dist: '37',   hisp: 4182,   whitenh: 43774,   blacknh: 2835,   aiannh: 144,   asiannh: 4191,   nhopinh: 62,   othernh: 56,   twoplusnh: 919
- }, {
-   dist: '38',   hisp: 3599,   whitenh: 55175,   blacknh: 581,   aiannh: 212,   asiannh: 1177,   nhopinh: 47,   othernh: 35,   twoplusnh: 591
- }, {
-   dist: '39',   hisp: 2712,   whitenh: 50649,   blacknh: 350,   aiannh: 235,   asiannh: 1557,   nhopinh: 32,   othernh: 53,   twoplusnh: 665
- }, {
-   dist: '40',   hisp: 7535,   whitenh: 37554,   blacknh: 6235,   aiannh: 256,   asiannh: 3610,   nhopinh: 157,   othernh: 81,   twoplusnh: 1217
- }, {
-   dist: '41',   hisp: 9425,   whitenh: 35753,   blacknh: 8846,   aiannh: 252,   asiannh: 3169,   nhopinh: 54,   othernh: 137,   twoplusnh: 1284
- }, {
-   dist: '42',   hisp: 20096,   whitenh: 19933,   blacknh: 10514,   aiannh: 305,   asiannh: 2279,   nhopinh: 178,   othernh: 74,   twoplusnh: 1194
- }, {
-   dist: '43',   hisp: 3439,   whitenh: 45516,   blacknh: 612,   aiannh: 161,   asiannh: 2506,   nhopinh: 20,   othernh: 53,   twoplusnh: 643
- }, {
-   dist: '44',   hisp: 3882,   whitenh: 47000,   blacknh: 872,   aiannh: 152,   asiannh: 2412,   nhopinh: 46,   othernh: 43,   twoplusnh: 749
- }, {
-   dist: '45',   hisp: 3617,   whitenh: 46619,   blacknh: 560,   aiannh: 181,   asiannh: 985,   nhopinh: 42,   othernh: 71,   twoplusnh: 589
- }, {
-   dist: '46',   hisp: 21380,   whitenh: 35988,   blacknh: 983,   aiannh: 322,   asiannh: 335,   nhopinh: 29,   othernh: 79,   twoplusnh: 620
- }, {
-   dist: '47',   hisp: 18291,   whitenh: 39147,   blacknh: 976,   aiannh: 401,   asiannh: 566,   nhopinh: 44,   othernh: 93,   twoplusnh: 728
- }, {
-   dist: '48',   hisp: 10099,   whitenh: 44906,   blacknh: 225,   aiannh: 203,   asiannh: 520,   nhopinh: 39,   othernh: 59,   twoplusnh: 537
- }, {
-   dist: '49',   hisp: 4044,   whitenh: 55391,   blacknh: 203,   aiannh: 230,   asiannh: 500,   nhopinh: 28,   othernh: 47,   twoplusnh: 549
- }, {
-   dist: '50',   hisp: 21944,   whitenh: 32662,   blacknh: 953,   aiannh: 326,   asiannh: 700,   nhopinh: 50,   othernh: 106,   twoplusnh: 664
- }, {
-   dist: '51',   hisp: 5360,   whitenh: 53422,   blacknh: 250,   aiannh: 276,   asiannh: 589,   nhopinh: 24,   othernh: 38,   twoplusnh: 558
- }, {
-   dist: '52',   hisp: 6490,   whitenh: 51543,   blacknh: 479,   aiannh: 241,   asiannh: 1611,   nhopinh: 39,   othernh: 85,   twoplusnh: 787
- }, {
-   dist: '53',   hisp: 5406,   whitenh: 55260,   blacknh: 807,   aiannh: 253,   asiannh: 1715,   nhopinh: 70,   othernh: 71,   twoplusnh: 1208
- }, {
-   dist: '54',   hisp: 7020,   whitenh: 50185,   blacknh: 310,   aiannh: 411,   asiannh: 320,   nhopinh: 52,   othernh: 43,   twoplusnh: 633
- }, {
-   dist: '55',   hisp: 6959,   whitenh: 52778,   blacknh: 365,   aiannh: 360,   asiannh: 571,   nhopinh: 69,   othernh: 50,   twoplusnh: 735
- }, {
-   dist: '56',   hisp: 11220,   whitenh: 41130,   blacknh: 1170,   aiannh: 273,   asiannh: 1621,   nhopinh: 38,   othernh: 43,   twoplusnh: 667
- }, {
-   dist: '57',   hisp: 11356,   whitenh: 43385,   blacknh: 239,   aiannh: 322,   asiannh: 340,   nhopinh: 36,   othernh: 65,   twoplusnh: 537
- }, {
-   dist: '58',   hisp: 7193,   whitenh: 47680,   blacknh: 134,   aiannh: 2156,   asiannh: 311,   nhopinh: 33,   othernh: 58,   twoplusnh: 582
- }, {
-   dist: '59',   hisp: 6422,   whitenh: 51987,   blacknh: 201,   aiannh: 2144,   asiannh: 342,   nhopinh: 29,   othernh: 78,   twoplusnh: 861
- }, {
-   dist: '60',   hisp: 6324,   whitenh: 55222,   blacknh: 2091,   aiannh: 780,   asiannh: 381,   nhopinh: 16,   othernh: 39,   twoplusnh: 647
- }, {
-   dist: '61',   hisp: 6910,   whitenh: 55426,   blacknh: 289,   aiannh: 209,   asiannh: 522,   nhopinh: 33,   othernh: 70,   twoplusnh: 597
- }, {
-   dist: '62',   hisp: 27350,   whitenh: 29684,   blacknh: 400,   aiannh: 521,   asiannh: 342,   nhopinh: 34,   othernh: 97,   twoplusnh: 574
- }, {
-   dist: '63',   hisp: 10807,   whitenh: 43088,   blacknh: 327,   aiannh: 592,   asiannh: 892,   nhopinh: 27,   othernh: 57,   twoplusnh: 636
- }, {
-   dist: '64',   hisp: 12156,   whitenh: 45889,   blacknh: 1674,   aiannh: 512,   asiannh: 365,   nhopinh: 24,   othernh: 40,   twoplusnh: 516
- }, {
-   dist: '65',   hisp: 11355,   whitenh: 44960,   blacknh: 1561,   aiannh: 326,   asiannh: 290,   nhopinh: 24,   othernh: 41,   twoplusnh: 346
- }, {
-   dist: 'CO',   hisp: 664462,   whitenh: 2810513,   blacknh: 138811,   aiannh: 23946,   asiannh: 103339,   nhopinh: 4104,   othernh: 4850,   twoplusnh: 53562
+   dist: '1',
+   hisp: 19800,
+   whitenh: 27771,
+   blacknh: 853,
+   aiannh: 383,
+   asiannh: 2371,
+   nhopinh: 45,
+   othernh: 75,
+   twoplusnh: 553
+ },
+ {
+   dist: '2',
+   hisp: 24455,
+   whitenh: 17756,
+   blacknh: 1196,
+   aiannh: 429,
+   asiannh: 1730,
+   nhopinh: 35,
+   othernh: 94,
+   twoplusnh: 484
+ },
+ {
+   dist: '3',
+   hisp: 5443,
+   whitenh: 47210,
+   blacknh: 956,
+   aiannh: 288,
+   asiannh: 1731,
+   nhopinh: 47,
+   othernh: 88,
+   twoplusnh: 861
+ },
+ {
+   dist: '4',
+   hisp: 20495,
+   whitenh: 24195,
+   blacknh: 747,
+   aiannh: 424,
+   asiannh: 780,
+   nhopinh: 25,
+   othernh: 94,
+   twoplusnh: 512
+ },
+ {
+   dist: '5',
+   hisp: 17360,
+   whitenh: 37916,
+   blacknh: 3150,
+   aiannh: 438,
+   asiannh: 1438,
+   nhopinh: 45,
+   othernh: 104,
+   twoplusnh: 1144
+ },
+ {
+   dist: '6',
+   hisp: 6033,
+   whitenh: 48055,
+   blacknh: 4688,
+   aiannh: 214,
+   asiannh: 2153,
+   nhopinh: 46,
+   othernh: 110,
+   twoplusnh: 950
+ },
+ {
+   dist: '7',
+   hisp: 21535,
+   whitenh: 27277,
+   blacknh: 16817,
+   aiannh: 333,
+   asiannh: 3026,
+   nhopinh: 110,
+   othernh: 113,
+   twoplusnh: 1433
+ },
+ {
+   dist: '8',
+   hisp: 8257,
+   whitenh: 29676,
+   blacknh: 11229,
+   aiannh: 295,
+   asiannh: 963,
+   nhopinh: 24,
+   othernh: 115,
+   twoplusnh: 1188
+ },
+ {
+   dist: '9',
+   hisp: 6998,
+   whitenh: 38676,
+   blacknh: 4919,
+   aiannh: 228,
+   asiannh: 2537,
+   nhopinh: 35,
+   othernh: 110,
+   twoplusnh: 1116
+ },
+ {
+   dist: '10',
+   hisp: 4239,
+   whitenh: 48826,
+   blacknh: 614,
+   aiannh: 192,
+   asiannh: 3136,
+   nhopinh: 39,
+   othernh: 100,
+   twoplusnh: 1035
+ },
+ {
+   dist: '11',
+   hisp: 8261,
+   whitenh: 48561,
+   blacknh: 420,
+   aiannh: 258,
+   asiannh: 2022,
+   nhopinh: 34,
+   othernh: 61,
+   twoplusnh: 622
+ },
+ {
+   dist: '12',
+   hisp: 9283,
+   whitenh: 39927,
+   blacknh: 392,
+   aiannh: 227,
+   asiannh: 1528,
+   nhopinh: 18,
+   othernh: 70,
+   twoplusnh: 602
+ },
+ {
+   dist: '13',
+   hisp: 2848,
+   whitenh: 52706,
+   blacknh: 316,
+   aiannh: 204,
+   asiannh: 1267,
+   nhopinh: 34,
+   othernh: 75,
+   twoplusnh: 741
+ },
+ {
+   dist: '14',
+   hisp: 4566,
+   whitenh: 43795,
+   blacknh: 2060,
+   aiannh: 267,
+   asiannh: 1784,
+   nhopinh: 91,
+   othernh: 74,
+   twoplusnh: 1140
+ },
+ {
+   dist: '15',
+   hisp: 9288,
+   whitenh: 50821,
+   blacknh: 4132,
+   aiannh: 374,
+   asiannh: 2409,
+   nhopinh: 208,
+   othernh: 108,
+   twoplusnh: 1675
+ },
+ {
+   dist: '16',
+   hisp: 7225,
+   whitenh: 38795,
+   blacknh: 2297,
+   aiannh: 358,
+   asiannh: 985,
+   nhopinh: 74,
+   othernh: 80,
+   twoplusnh: 1054
+ },
+ {
+   dist: '17',
+   hisp: 12992,
+   whitenh: 28133,
+   blacknh: 7525,
+   aiannh: 419,
+   asiannh: 1727,
+   nhopinh: 344,
+   othernh: 93,
+   twoplusnh: 1695
+ },
+ {
+   dist: '18',
+   hisp: 7752,
+   whitenh: 41277,
+   blacknh: 2579,
+   aiannh: 396,
+   asiannh: 805,
+   nhopinh: 81,
+   othernh: 83,
+   twoplusnh: 1193
+ },
+ {
+   dist: '19',
+   hisp: 7652,
+   whitenh: 41246,
+   blacknh: 4308,
+   aiannh: 426,
+   asiannh: 1410,
+   nhopinh: 362,
+   othernh: 87,
+   twoplusnh: 1558
+ },
+ {
+   dist: '20',
+   hisp: 4486,
+   whitenh: 64919,
+   blacknh: 1608,
+   aiannh: 286,
+   asiannh: 2371,
+   nhopinh: 85,
+   othernh: 117,
+   twoplusnh: 1367
+ },
+ {
+   dist: '21',
+   hisp: 4204,
+   whitenh: 43522,
+   blacknh: 1429,
+   aiannh: 301,
+   asiannh: 1552,
+   nhopinh: 104,
+   othernh: 61,
+   twoplusnh: 924
+ },
+ {
+   dist: '22',
+   hisp: 6022,
+   whitenh: 42674,
+   blacknh: 624,
+   aiannh: 311,
+   asiannh: 2009,
+   nhopinh: 43,
+   othernh: 65,
+   twoplusnh: 587
+ },
+ {
+   dist: '23',
+   hisp: 7843,
+   whitenh: 41507,
+   blacknh: 725,
+   aiannh: 354,
+   asiannh: 1433,
+   nhopinh: 51,
+   othernh: 51,
+   twoplusnh: 667
+ },
+ {
+   dist: '24',
+   hisp: 9882,
+   whitenh: 39109,
+   blacknh: 515,
+   aiannh: 349,
+   asiannh: 728,
+   nhopinh: 46,
+   othernh: 58,
+   twoplusnh: 617
+ },
+ {
+   dist: '25',
+   hisp: 2197,
+   whitenh: 52022,
+   blacknh: 185,
+   aiannh: 158,
+   asiannh: 700,
+   nhopinh: 22,
+   othernh: 51,
+   twoplusnh: 428
+ },
+ {
+   dist: '26',
+   hisp: 9412,
+   whitenh: 39424,
+   blacknh: 570,
+   aiannh: 303,
+   asiannh: 1609,
+   nhopinh: 40,
+   othernh: 78,
+   twoplusnh: 703
+ },
+ {
+   dist: '27',
+   hisp: 5202,
+   whitenh: 43932,
+   blacknh: 309,
+   aiannh: 189,
+   asiannh: 881,
+   nhopinh: 27,
+   othernh: 42,
+   twoplusnh: 535
+ },
+ {
+   dist: '28',
+   hisp: 3779,
+   whitenh: 44068,
+   blacknh: 314,
+   aiannh: 148,
+   asiannh: 1065,
+   nhopinh: 29,
+   othernh: 51,
+   twoplusnh: 491
+ },
+ {
+   dist: '29',
+   hisp: 5745,
+   whitenh: 40877,
+   blacknh: 503,
+   aiannh: 195,
+   asiannh: 1997,
+   nhopinh: 38,
+   othernh: 55,
+   twoplusnh: 622
+ },
+ {
+   dist: '30',
+   hisp: 22041,
+   whitenh: 28268,
+   blacknh: 4567,
+   aiannh: 348,
+   asiannh: 1444,
+   nhopinh: 121,
+   othernh: 61,
+   twoplusnh: 785
+ },
+ {
+   dist: '31',
+   hisp: 13972,
+   whitenh: 52026,
+   blacknh: 1160,
+   aiannh: 397,
+   asiannh: 3192,
+   nhopinh: 60,
+   othernh: 79,
+   twoplusnh: 964
+ },
+ {
+   dist: '32',
+   hisp: 29137,
+   whitenh: 34680,
+   blacknh: 1462,
+   aiannh: 408,
+   asiannh: 1675,
+   nhopinh: 53,
+   othernh: 97,
+   twoplusnh: 819
+ },
+ {
+   dist: '33',
+   hisp: 6367,
+   whitenh: 55886,
+   blacknh: 688,
+   aiannh: 270,
+   asiannh: 4454,
+   nhopinh: 50,
+   othernh: 67,
+   twoplusnh: 862
+ },
+ {
+   dist: '34',
+   hisp: 18431,
+   whitenh: 30936,
+   blacknh: 739,
+   aiannh: 326,
+   asiannh: 2093,
+   nhopinh: 56,
+   othernh: 86,
+   twoplusnh: 588
+ },
+ {
+   dist: '35',
+   hisp: 19126,
+   whitenh: 26440,
+   blacknh: 585,
+   aiannh: 326,
+   asiannh: 2355,
+   nhopinh: 35,
+   othernh: 72,
+   twoplusnh: 511
+ },
+ {
+   dist: '36',
+   hisp: 11791,
+   whitenh: 29837,
+   blacknh: 9783,
+   aiannh: 317,
+   asiannh: 3267,
+   nhopinh: 184,
+   othernh: 72,
+   twoplusnh: 1343
+ },
+ {
+   dist: '37',
+   hisp: 2441,
+   whitenh: 43311,
+   blacknh: 473,
+   aiannh: 138,
+   asiannh: 1272,
+   nhopinh: 36,
+   othernh: 39,
+   twoplusnh: 504
+ },
+ {
+   dist: '38',
+   hisp: 5191,
+   whitenh: 46557,
+   blacknh: 793,
+   aiannh: 241,
+   asiannh: 1590,
+   nhopinh: 32,
+   othernh: 50,
+   twoplusnh: 661
+ },
+ {
+   dist: '39',
+   hisp: 6322,
+   whitenh: 55673,
+   blacknh: 4857,
+   aiannh: 205,
+   asiannh: 6417,
+   nhopinh: 94,
+   othernh: 95,
+   twoplusnh: 1324
+ },
+ {
+   dist: '40',
+   hisp: 6799,
+   whitenh: 53157,
+   blacknh: 4094,
+   aiannh: 301,
+   asiannh: 3065,
+   nhopinh: 114,
+   othernh: 71,
+   twoplusnh: 1136
+ },
+ {
+   dist: '41',
+   hisp: 9120,
+   whitenh: 34164,
+   blacknh: 9349,
+   aiannh: 238,
+   asiannh: 3219,
+   nhopinh: 60,
+   othernh: 127,
+   twoplusnh: 1272
+ },
+ {
+   dist: '42',
+   hisp: 18910,
+   whitenh: 17809,
+   blacknh: 9220,
+   aiannh: 282,
+   asiannh: 2000,
+   nhopinh: 164,
+   othernh: 70,
+   twoplusnh: 1059
+ },
+ {
+   dist: '43',
+   hisp: 3825,
+   whitenh: 51162,
+   blacknh: 682,
+   aiannh: 171,
+   asiannh: 3278,
+   nhopinh: 23,
+   othernh: 64,
+   twoplusnh: 740
+ },
+ {
+   dist: '44',
+   hisp: 5063,
+   whitenh: 67074,
+   blacknh: 1043,
+   aiannh: 219,
+   asiannh: 3021,
+   nhopinh: 59,
+   othernh: 67,
+   twoplusnh: 985
+ },
+ {
+   dist: '45',
+   hisp: 4762,
+   whitenh: 71548,
+   blacknh: 669,
+   aiannh: 339,
+   asiannh: 1161,
+   nhopinh: 58,
+   othernh: 89,
+   twoplusnh: 921
+ },
+ {
+   dist: '46',
+   hisp: 21338,
+   whitenh: 26645,
+   blacknh: 1110,
+   aiannh: 311,
+   asiannh: 302,
+   nhopinh: 33,
+   othernh: 77,
+   twoplusnh: 550
+ },
+ {
+   dist: '47',
+   hisp: 15889,
+   whitenh: 42486,
+   blacknh: 2165,
+   aiannh: 591,
+   asiannh: 611,
+   nhopinh: 47,
+   othernh: 70,
+   twoplusnh: 648
+ },
+ {
+   dist: '48',
+   hisp: 13766,
+   whitenh: 63794,
+   blacknh: 371,
+   aiannh: 300,
+   asiannh: 1214,
+   nhopinh: 37,
+   othernh: 89,
+   twoplusnh: 816
+ },
+ {
+   dist: '49',
+   hisp: 4509,
+   whitenh: 57370,
+   blacknh: 220,
+   aiannh: 249,
+   asiannh: 715,
+   nhopinh: 32,
+   othernh: 52,
+   twoplusnh: 603
+ },
+ {
+   dist: '50',
+   hisp: 21793,
+   whitenh: 32560,
+   blacknh: 949,
+   aiannh: 306,
+   asiannh: 695,
+   nhopinh: 52,
+   othernh: 104,
+   twoplusnh: 676
+ },
+ {
+   dist: '51',
+   hisp: 5381,
+   whitenh: 54182,
+   blacknh: 256,
+   aiannh: 276,
+   asiannh: 608,
+   nhopinh: 23,
+   othernh: 38,
+   twoplusnh: 567
+ },
+ {
+   dist: '52',
+   hisp: 6903,
+   whitenh: 53007,
+   blacknh: 496,
+   aiannh: 254,
+   asiannh: 1464,
+   nhopinh: 37,
+   othernh: 78,
+   twoplusnh: 816
+ },
+ {
+   dist: '53',
+   hisp: 4401,
+   whitenh: 49471,
+   blacknh: 765,
+   aiannh: 216,
+   asiannh: 1625,
+   nhopinh: 69,
+   othernh: 71,
+   twoplusnh: 1104
+ },
+ {
+   dist: '54',
+   hisp: 7452,
+   whitenh: 56343,
+   blacknh: 322,
+   aiannh: 430,
+   asiannh: 399,
+   nhopinh: 60,
+   othernh: 64,
+   twoplusnh: 715
+ },
+ {
+   dist: '55',
+   hisp: 6929,
+   whitenh: 52030,
+   blacknh: 360,
+   aiannh: 369,
+   asiannh: 520,
+   nhopinh: 65,
+   othernh: 34,
+   twoplusnh: 718
+ },
+ {
+   dist: '56',
+   hisp: 12891,
+   whitenh: 47311,
+   blacknh: 386,
+   aiannh: 179,
+   asiannh: 559,
+   nhopinh: 29,
+   othernh: 96,
+   twoplusnh: 459
+ },
+ {
+   dist: '57',
+   hisp: 6140,
+   whitenh: 52040,
+   blacknh: 257,
+   aiannh: 324,
+   asiannh: 363,
+   nhopinh: 48,
+   othernh: 40,
+   twoplusnh: 581
+ },
+ {
+   dist: '58',
+   hisp: 6775,
+   whitenh: 51221,
+   blacknh: 132,
+   aiannh: 1349,
+   asiannh: 291,
+   nhopinh: 36,
+   othernh: 65,
+   twoplusnh: 605
+ },
+ {
+   dist: '59',
+   hisp: 6847,
+   whitenh: 50596,
+   blacknh: 183,
+   aiannh: 2968,
+   asiannh: 351,
+   nhopinh: 30,
+   othernh: 70,
+   twoplusnh: 833
+ },
+ {
+   dist: '60',
+   hisp: 4266,
+   whitenh: 51876,
+   blacknh: 652,
+   aiannh: 506,
+   asiannh: 338,
+   nhopinh: 14,
+   othernh: 37,
+   twoplusnh: 629
+ },
+ {
+   dist: '61',
+   hisp: 10829,
+   whitenh: 49089,
+   blacknh: 220,
+   aiannh: 196,
+   asiannh: 529,
+   nhopinh: 20,
+   othernh: 74,
+   twoplusnh: 542
+ },
+ {
+   dist: '62',
+   hisp: 24728,
+   whitenh: 22277,
+   blacknh: 413,
+   aiannh: 430,
+   asiannh: 244,
+   nhopinh: 19,
+   othernh: 94,
+   twoplusnh: 460
+ },
+ {
+   dist: '63',
+   hisp: 10485,
+   whitenh: 39386,
+   blacknh: 1577,
+   aiannh: 305,
+   asiannh: 265,
+   nhopinh: 17,
+   othernh: 33,
+   twoplusnh: 347
+ },
+ {
+   dist: '64',
+   hisp: 15893,
+   whitenh: 31000,
+   blacknh: 806,
+   aiannh: 420,
+   asiannh: 258,
+   nhopinh: 16,
+   othernh: 48,
+   twoplusnh: 425
+ },
+ {
+   dist: '65',
+   hisp: 10695,
+   whitenh: 44628,
+   blacknh: 1027,
+   aiannh: 694,
+   asiannh: 338,
+   nhopinh: 39,
+   othernh: 47,
+   twoplusnh: 497
+ },
+ {
+   dist: 'CO',
+   hisp: 664462,
+   whitenh: 2810513,
+   blacknh: 138811,
+   aiannh: 23946,
+   asiannh: 103339,
+   nhopinh: 4104,
+   othernh: 4850,
+   twoplusnh: 53562
  }
 ];
         
