@@ -201,59 +201,270 @@
         
 var cd_data = [
  {
-   dist: '01',   chg: 264,   hisp: -144,   whitenh: 140,   blacknh: -264,   aiannh: 102,   asiannh: 232,   nhopinh: 102,   othernh: -49,   twoplusnh: 145
- }, {
-   dist: '02',   chg: 11,   hisp: 120,   whitenh: 275,   blacknh: -83,   aiannh: -272,   asiannh: 191,   nhopinh: -35,   othernh: -24,   twoplusnh: -161
- }, {
-   dist: '03',   chg: 27,   hisp: -44,   whitenh: -49,   blacknh: 25,   aiannh: -3,   asiannh: -107,   nhopinh: -7,   othernh: 27,   twoplusnh: 185
- }, {
-   dist: '04',   chg: 62,   hisp: -250,   whitenh: -44,   blacknh: 192,   aiannh: -16,   asiannh: -120,   nhopinh: 18,   othernh: -38,   twoplusnh: 320
- }, {
-   dist: '05',   chg: -20,   hisp: -127,   whitenh: -110,   blacknh: 86,   aiannh: 84,   asiannh: 85,   nhopinh: 1,   othernh: 13,   twoplusnh: -52
- }, {
-   dist: '06',   chg: -297,   hisp: 105,   whitenh: 109,   blacknh: 201,   aiannh: 121,   asiannh: -540,   nhopinh: -23,   othernh: 87,   twoplusnh: -357
- }, {
-   dist: '07',   chg: -108,   hisp: 75,   whitenh: -349,   blacknh: -78,   aiannh: -79,   asiannh: 231,   nhopinh: 21,   othernh: -3,   twoplusnh: 74
+   dist: '01',
+   chg: 65,
+   hisp: -9,
+   whitenh: 60,
+   blacknh: -38,
+   aiannh: 36,
+   asiannh: -7,
+   nhopinh: -3,
+   othernh: -8,
+   twoplusnh: 34
+ },
+ {
+   dist: '02',
+   chg: 135,
+   hisp: -5,
+   whitenh: 18,
+   blacknh: 66,
+   aiannh: -45,
+   asiannh: -64,
+   nhopinh: -49,
+   othernh: 28,
+   twoplusnh: 186
+ },
+ {
+   dist: '03',
+   chg: -46,
+   hisp: 31,
+   whitenh: 67,
+   blacknh: 4,
+   aiannh: 37,
+   asiannh: -32,
+   nhopinh: -39,
+   othernh: -5,
+   twoplusnh: -109
+ },
+ {
+   dist: '04',
+   chg: 146,
+   hisp: 81,
+   whitenh: -14,
+   blacknh: -5,
+   aiannh: 57,
+   asiannh: 85,
+   nhopinh: 17,
+   othernh: -16,
+   twoplusnh: -59
+ },
+ {
+   dist: '05',
+   chg: -141,
+   hisp: 55,
+   whitenh: -66,
+   blacknh: 3,
+   aiannh: -33,
+   asiannh: -13,
+   nhopinh: -14,
+   othernh: -11,
+   twoplusnh: -62
+ },
+ {
+   dist: '06',
+   chg: -537,
+   hisp: -381,
+   whitenh: -110,
+   blacknh: 41,
+   aiannh: -40,
+   asiannh: 1,
+   nhopinh: -25,
+   othernh: 51,
+   twoplusnh: -74
+ },
+ {
+   dist: '07',
+   chg: 362,
+   hisp: 208,
+   whitenh: 47,
+   blacknh: -68,
+   aiannh: -13,
+   asiannh: 22,
+   nhopinh: 82,
+   othernh: -51,
+   twoplusnh: 135
  }
 ];
         
 var cd_sf1 = [
  {
-   dist: '01',   hisp: 135691,   whitenh: 349931,   blacknh: 44985,   aiannh: 3243,   asiannh: 18143,   nhopinh: 444,   othernh: 965,   twoplusnh: 8870
- }, {
-   dist: '02',   hisp: 46278,   whitenh: 491467,   blacknh: 4084,   aiannh: 2070,   asiannh: 15494,   nhopinh: 345,   othernh: 650,   twoplusnh: 7003
- }, {
-   dist: '03',   hisp: 113102,   whitenh: 414881,   blacknh: 3818,   aiannh: 6825,   asiannh: 3668,   nhopinh: 370,   othernh: 639,   twoplusnh: 5812
- }, {
-   dist: '04',   hisp: 94966,   whitenh: 404202,   blacknh: 6995,   aiannh: 2892,   asiannh: 8665,   nhopinh: 307,   othernh: 533,   twoplusnh: 5279
- }, {
-   dist: '05',   hisp: 64846,   whitenh: 414862,   blacknh: 28043,   aiannh: 3661,   asiannh: 13485,   nhopinh: 1376,   othernh: 740,   twoplusnh: 11387
- }, {
-   dist: '06',   hisp: 86938,   whitenh: 350260,   blacknh: 43832,   aiannh: 2138,   asiannh: 26787,   nhopinh: 818,   othernh: 659,   twoplusnh: 8726
- }, {
-   dist: '07',   hisp: 122641,   whitenh: 384910,   blacknh: 7054,   aiannh: 3117,   asiannh: 17097,   nhopinh: 444,   othernh: 664,   twoplusnh: 6485
- }, {
-   dist: 'CO',   hisp: 664462,   whitenh: 2810513,   blacknh: 138811,   aiannh: 23946,   asiannh: 103339,   nhopinh: 4104,   othernh: 4850,   twoplusnh: 53562
+   dist: '01',
+   hisp: 133269,
+   whitenh: 309927,
+   blacknh: 46371,
+   aiannh: 3127,
+   asiannh: 17471,
+   nhopinh: 423,
+   othernh: 932,
+   twoplusnh: 8610
+ },
+ {
+   dist: '02',
+   hisp: 94936,
+   whitenh: 424793,
+   blacknh: 5708,
+   aiannh: 2365,
+   asiannh: 21298,
+   nhopinh: 378,
+   othernh: 731,
+   twoplusnh: 6770
+ },
+ {
+   dist: '03',
+   hisp: 113900,
+   whitenh: 406261,
+   blacknh: 3969,
+   aiannh: 6911,
+   asiannh: 3586,
+   nhopinh: 363,
+   othernh: 615,
+   twoplusnh: 5855
+ },
+ {
+   dist: '04',
+   hisp: 91796,
+   whitenh: 434085,
+   blacknh: 6537,
+   aiannh: 2993,
+   asiannh: 8340,
+   nhopinh: 328,
+   othernh: 564,
+   twoplusnh: 5889
+ },
+ {
+   dist: '05',
+   hisp: 66596,
+   whitenh: 418573,
+   blacknh: 28059,
+   aiannh: 3701,
+   asiannh: 13515,
+   nhopinh: 1380,
+   othernh: 753,
+   twoplusnh: 11437
+ },
+ {
+   dist: '06',
+   hisp: 42928,
+   whitenh: 489314,
+   blacknh: 15286,
+   aiannh: 1938,
+   asiannh: 22772,
+   nhopinh: 509,
+   othernh: 614,
+   twoplusnh: 7420
+ },
+ {
+   dist: '07',
+   hisp: 121037,
+   whitenh: 327560,
+   blacknh: 32881,
+   aiannh: 2911,
+   asiannh: 16357,
+   nhopinh: 723,
+   othernh: 641,
+   twoplusnh: 7581
+ },
+ {
+   dist: 'CO',
+   hisp: 664462,
+   whitenh: 2810513,
+   blacknh: 138811,
+   aiannh: 23946,
+   asiannh: 103339,
+   nhopinh: 4104,
+   othernh: 4850,
+   twoplusnh: 53562
  }
 ];
         
- var cd_dp = [
+var cd_dp = [
  {
-   dist: '01',   hisp: 135547,   whitenh: 350071,   blacknh: 44721,   aiannh: 3345,   asiannh: 18375,   nhopinh: 546,   othernh: 916,   twoplusnh: 9015
- }, {
-   dist: '02',   hisp: 46398,   whitenh: 491742,   blacknh: 4001,   aiannh: 1798,   asiannh: 15685,   nhopinh: 310,   othernh: 626,   twoplusnh: 6842
- }, {
-   dist: '03',   hisp: 113058,   whitenh: 414832,   blacknh: 3843,   aiannh: 6822,   asiannh: 3561,   nhopinh: 363,   othernh: 666,   twoplusnh: 5997
- }, {
-   dist: '04',   hisp: 94716,   whitenh: 404158,   blacknh: 7187,   aiannh: 2876,   asiannh: 8545,   nhopinh: 325,   othernh: 495,   twoplusnh: 5599
- }, {
-   dist: '05',   hisp: 64719,   whitenh: 414752,   blacknh: 28129,   aiannh: 3745,   asiannh: 13570,   nhopinh: 1377,   othernh: 753,   twoplusnh: 11335
- }, {
-   dist: '06',   hisp: 87043,   whitenh: 350369,   blacknh: 44033,   aiannh: 2259,   asiannh: 26247,   nhopinh: 795,   othernh: 746,   twoplusnh: 8369
- }, {
-   dist: '07',   hisp: 122716,   whitenh: 384561,   blacknh: 6976,   aiannh: 3038,   asiannh: 17328,   nhopinh: 465,   othernh: 661,   twoplusnh: 6559
- }, {
-   dist: 'CO',   hisp: 664197,   whitenh: 2810485,   blacknh: 138890,   aiannh: 23883,   asiannh: 103311,   nhopinh: 4181,   othernh: 4863,   twoplusnh: 53716
+   dist: '01',
+   hisp: 133278,
+   whitenh: 309867,
+   blacknh: 46409,
+   aiannh: 3091,
+   asiannh: 17478,
+   nhopinh: 426,
+   othernh: 940,
+   twoplusnh: 8576
+ },
+ {
+   dist: '02',
+   hisp: 94941,
+   whitenh: 424775,
+   blacknh: 5642,
+   aiannh: 2410,
+   asiannh: 21362,
+   nhopinh: 427,
+   othernh: 703,
+   twoplusnh: 6584
+ },
+ {
+   dist: '03',
+   hisp: 113869,
+   whitenh: 406194,
+   blacknh: 3965,
+   aiannh: 6874,
+   asiannh: 3618,
+   nhopinh: 402,
+   othernh: 620,
+   twoplusnh: 5964
+ },
+ {
+   dist: '04',
+   hisp: 91715,
+   whitenh: 434099,
+   blacknh: 6542,
+   aiannh: 2936,
+   asiannh: 8255,
+   nhopinh: 311,
+   othernh: 580,
+   twoplusnh: 5948
+ },
+ {
+   dist: '05',
+   hisp: 66541,
+   whitenh: 418639,
+   blacknh: 28056,
+   aiannh: 3734,
+   asiannh: 13528,
+   nhopinh: 1394,
+   othernh: 764,
+   twoplusnh: 11499
+ },
+ {
+   dist: '06',
+   hisp: 43309,
+   whitenh: 489424,
+   blacknh: 15245,
+   aiannh: 1978,
+   asiannh: 22771,
+   nhopinh: 534,
+   othernh: 563,
+   twoplusnh: 7494
+ },
+ {
+   dist: '07',
+   hisp: 120829,
+   whitenh: 327513,
+   blacknh: 32949,
+   aiannh: 2924,
+   asiannh: 16335,
+   nhopinh: 641,
+   othernh: 692,
+   twoplusnh: 7446
+ },
+ {
+   dist: 'CO',
+   hisp: 664482,
+   whitenh: 2810511,
+   blacknh: 138808,
+   aiannh: 23947,
+   asiannh: 103347,
+   nhopinh: 4135,
+   othernh: 4862,
+   twoplusnh: 53511
  }
 ];
 
