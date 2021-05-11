@@ -2495,7 +2495,7 @@ var sldl_data = [
  }
 ];
         
-    var sldl_sf1 =    [
+var sldl_sf1 = [
  {
    dist: '1',
    hisp: 30725,
@@ -4080,7 +4080,7 @@ var sldl_dp = [
               //.attr("text-anchor", "left")
               .attr("x", w * 0.5)
               .attr("y", h * 0.01)
-              .html(function(d) {return "Total Population 18+: "+ d.toLocaleString();})
+              .html(function(d) {return "Total Population: "+ d.toLocaleString();})
               .style("font-size", "13px");
         };
 
@@ -4146,7 +4146,7 @@ var sldl_dp = [
             //.attr("text-anchor", "left")
             .attr("x", w * 0.5)
             .attr("y", h * 0.01)
-            .text(function(d) {return "Total Population 18+: " + d.toLocaleString();})
+            .text(function(d) {return "Total Population: " + d.toLocaleString();})
             .style("font-size", "13px");
 
         g.selectAll(".axis--y").remove();
@@ -4240,7 +4240,7 @@ var sldl_dp = [
             //.attr("text-anchor", "left")
             .attr("x", w * 0.5)
             .attr("y", h * 0.01)
-            .text(function(d) {return "Total Population 18+: " + d.toLocaleString();})
+            .text(function(d) {return "Total Population: " + d.toLocaleString();})
             .style("font-size", "13px");
       };
 
@@ -4305,7 +4305,7 @@ var sldl_dp = [
             //.attr("text-anchor", "left")
             .attr("x", w * 0.5)
             .attr("y", h * 0.01)
-            .text(function(d) {return "Total Population 18+: " + d.toLocaleString();})
+            .text(function(d) {return "Total Population: " + d.toLocaleString();})
             .style("font-size", "13px");
 
         g1.selectAll(".axis--y").remove();
@@ -4392,7 +4392,7 @@ var sldl_dp = [
             //.attr("text-anchor", "left")
             .attr("x", w * 0.5)
             // .attr("y", h * 0.1)
-            .text(function(d) {return "Change Population 18+: " + d.toLocaleString();})
+            .text(function(d) {return "Change Population: " + d.toLocaleString();})
             .style("font-size", "13px");
         
         g2.append("g")
@@ -4563,9 +4563,9 @@ var nest = d3.nest().key(function(d) {return d.dist; }).entries(datasf1); //cons
         updateBarChartDP('CO');
         updateBarChartSF1('CO');
         updateBarChartChg('CO');
-        document.getElementById("dpTag").innerHTML = "Differential Privacy - Population 18 years and Over by Race - Colorado";
-        document.getElementById("sf1Tag").innerHTML = "SF1 - Population 18 Years and Over by Race - Colorado";
-        document.getElementById("chgTag").innerHTML = "Difference (DP - SF1) - Population 18 Years and Over by Race - Colorado";
+        document.getElementById("dpTag").innerHTML = "Differential Privacy - Population by Race - Colorado";
+        document.getElementById("sf1Tag").innerHTML = "SF1 - Population  by Race - Colorado";
+        document.getElementById("chgTag").innerHTML = "Difference (DP - SF1) - Population by Race - Colorado";
         // alert('click on the map')
       })
 
@@ -4576,9 +4576,9 @@ var nest = d3.nest().key(function(d) {return d.dist; }).entries(datasf1); //cons
         updateBarChartDP(e.layer.feature.properties.DISTNUM);
         updateBarChartSF1(e.layer.feature.properties.DISTNUM);
         updateBarChartChg(e.layer.feature.properties.DISTNUM);
-        document.getElementById("dpTag").innerHTML = "Differential Privacy - Population 18 Years and Over by Race - District "+e.layer.feature.properties.DISTNUM;
-        document.getElementById("sf1Tag").innerHTML = "SF1 - Population 18 Years and Over by Race - District "+e.layer.feature.properties.DISTNUM;
-        document.getElementById("chgTag").innerHTML = "Difference (DP - SF1) - Population 18 Years and Over by Race - District "+e.layer.feature.properties.DISTNUM;
+        document.getElementById("dpTag").innerHTML = "Differential Privacy - Population by Race - District "+e.layer.feature.properties.DISTNUM;
+        document.getElementById("sf1Tag").innerHTML = "SF1 - Population by Race - District "+e.layer.feature.properties.DISTNUM;
+        document.getElementById("chgTag").innerHTML = "Difference (DP - SF1) - Population by Race - District "+e.layer.feature.properties.DISTNUM;
       })
 
       // var popupTemplate = "<h3>Congressional District {DISTNUM}</h3><br>Total Change in the Hispanic population: {hisp}";
@@ -4700,9 +4700,9 @@ var nest = d3.nest().key(function(d) {return d.dist; }).entries(datasf1); //cons
         updateBarChartDP(e.layer.feature.properties.DISTNUM);
         updateBarChartSF1(e.layer.feature.properties.DISTNUM);
         updateBarChartChg(e.layer.feature.properties.DISTNUM);
-        document.getElementById("dpTag").innerHTML = "Differential Privacy - Population 18 Years and Over by Race - District "+e.layer.feature.properties.DISTNUM;
-        document.getElementById("sf1Tag").innerHTML = "SF1 - Population 18 Years and Over by Race - District "+e.layer.feature.properties.DISTNUM;
-        document.getElementById("chgTag").innerHTML = "Difference (DP - SF1) - Population 18 Years and Over by Race - District "+e.layer.feature.properties.DISTNUM;
+        document.getElementById("dpTag").innerHTML = "Differential Privacy - Population by Race - District "+e.layer.feature.properties.DISTNUM;
+        document.getElementById("sf1Tag").innerHTML = "SF1 - Population by Race - District "+e.layer.feature.properties.DISTNUM;
+        document.getElementById("chgTag").innerHTML = "Difference (DP - SF1) - Population by Race - District "+e.layer.feature.properties.DISTNUM;
       });
 
     }
@@ -4785,9 +4785,9 @@ var nest = d3.nest().key(function(d) {return d.dist; }).entries(datasf1); //cons
         updateBarChartDP(e.layer.feature.properties.DISTNUM);
         updateBarChartSF1(e.layer.feature.properties.DISTNUM);
         updateBarChartChg(e.layer.feature.properties.DISTNUM);
-        document.getElementById("dpTag").innerHTML = "Differential Privacy - Population 18 Years and Over by Race - District "+e.layer.feature.properties.DISTNUM;
-        document.getElementById("sf1Tag").innerHTML = "SF1 - Population 18 Years and Over by Race - District "+e.layer.feature.properties.DISTNUM;
-        document.getElementById("chgTag").innerHTML = "Difference (DP - SF1) - Population 18 Years and Over by Race - District "+e.layer.feature.properties.DISTNUM;
+        document.getElementById("dpTag").innerHTML = "Differential Privacy - Population by Race - District "+e.layer.feature.properties.DISTNUM;
+        document.getElementById("sf1Tag").innerHTML = "SF1 - Population by Race - District "+e.layer.feature.properties.DISTNUM;
+        document.getElementById("chgTag").innerHTML = "Difference (DP - SF1) - Population by Race - District "+e.layer.feature.properties.DISTNUM;
       });
 
     }
@@ -4869,9 +4869,9 @@ var nest = d3.nest().key(function(d) {return d.dist; }).entries(datasf1); //cons
         updateBarChartDP(e.layer.feature.properties.DISTNUM);
         updateBarChartSF1(e.layer.feature.properties.DISTNUM);
         updateBarChartChg(e.layer.feature.properties.DISTNUM);
-        document.getElementById("dpTag").innerHTML = "Differential Privacy - Population 18 Years and Over by Race - District "+e.layer.feature.properties.DISTNUM;
-        document.getElementById("sf1Tag").innerHTML = "SF1 - Population 18 Years and Over by Race - District "+e.layer.feature.properties.DISTNUM;
-        document.getElementById("chgTag").innerHTML = "Difference (DP - SF1) - Population 18 Years and Over by Race - District "+e.layer.feature.properties.DISTNUM;
+        document.getElementById("dpTag").innerHTML = "Differential Privacy - Population by Race - District "+e.layer.feature.properties.DISTNUM;
+        document.getElementById("sf1Tag").innerHTML = "SF1 - Population by Race - District "+e.layer.feature.properties.DISTNUM;
+        document.getElementById("chgTag").innerHTML = "Difference (DP - SF1) - Population by Race - District "+e.layer.feature.properties.DISTNUM;
       });
 
     }
@@ -4953,9 +4953,9 @@ var nest = d3.nest().key(function(d) {return d.dist; }).entries(datasf1); //cons
         updateBarChartDP(e.layer.feature.properties.DISTNUM);
         updateBarChartSF1(e.layer.feature.properties.DISTNUM);
         updateBarChartChg(e.layer.feature.properties.DISTNUM);
-        document.getElementById("dpTag").innerHTML = "Differential Privacy - Population 18 Years and Over by Race - District "+e.layer.feature.properties.DISTNUM;
-        document.getElementById("sf1Tag").innerHTML = "SF1 - Population 18 Years and Over by Race - District "+e.layer.feature.properties.DISTNUM;
-        document.getElementById("chgTag").innerHTML = "Difference (DP - SF1) - Population 18 Years and Over by Race - District "+e.layer.feature.properties.DISTNUM;
+        document.getElementById("dpTag").innerHTML = "Differential Privacy - Population by Race - District "+e.layer.feature.properties.DISTNUM;
+        document.getElementById("sf1Tag").innerHTML = "SF1 - Population by Race - District "+e.layer.feature.properties.DISTNUM;
+        document.getElementById("chgTag").innerHTML = "Difference (DP - SF1) - Population by Race - District "+e.layer.feature.properties.DISTNUM;
       });
 
     }
@@ -5036,9 +5036,9 @@ var nest = d3.nest().key(function(d) {return d.dist; }).entries(datasf1); //cons
         updateBarChartDP(e.layer.feature.properties.DISTNUM);
         updateBarChartSF1(e.layer.feature.properties.DISTNUM);
         updateBarChartChg(e.layer.feature.properties.DISTNUM);
-        document.getElementById("dpTag").innerHTML = "Differential Privacy - Population 18 Years and Over by Race - District "+e.layer.feature.properties.DISTNUM;
-        document.getElementById("sf1Tag").innerHTML = "SF1 - Population 18 Years and Over by Race - District "+e.layer.feature.properties.DISTNUM;
-        document.getElementById("chgTag").innerHTML = "Difference (DP - SF1) - Population 18 Years and Over by Race - District "+e.layer.feature.properties.DISTNUM;
+        document.getElementById("dpTag").innerHTML = "Differential Privacy - Population by Race - District "+e.layer.feature.properties.DISTNUM;
+        document.getElementById("sf1Tag").innerHTML = "SF1 - Population by Race - District "+e.layer.feature.properties.DISTNUM;
+        document.getElementById("chgTag").innerHTML = "Difference (DP - SF1) - Population by Race - District "+e.layer.feature.properties.DISTNUM;
       });
 
     }    
@@ -5118,9 +5118,9 @@ var nest = d3.nest().key(function(d) {return d.dist; }).entries(datasf1); //cons
         updateBarChartDP(e.layer.feature.properties.DISTNUM);
         updateBarChartSF1(e.layer.feature.properties.DISTNUM);
         updateBarChartChg(e.layer.feature.properties.DISTNUM);
-        document.getElementById("dpTag").innerHTML = "Differential Privacy - Population 18 Years and Over by Race - District "+e.layer.feature.properties.DISTNUM;
-        document.getElementById("sf1Tag").innerHTML = "SF1 - Population 18 Years and Over by Race - District "+e.layer.feature.properties.DISTNUM;
-        document.getElementById("chgTag").innerHTML = "Difference (DP - SF1) - Population 18 Years and Over by Race - District "+e.layer.feature.properties.DISTNUM;
+        document.getElementById("dpTag").innerHTML = "Differential Privacy - Population by Race - District "+e.layer.feature.properties.DISTNUM;
+        document.getElementById("sf1Tag").innerHTML = "SF1 - Population by Race - District "+e.layer.feature.properties.DISTNUM;
+        document.getElementById("chgTag").innerHTML = "Difference (DP - SF1) - Population by Race - District "+e.layer.feature.properties.DISTNUM;
       });
     
     }    
@@ -5200,9 +5200,9 @@ var nest = d3.nest().key(function(d) {return d.dist; }).entries(datasf1); //cons
         updateBarChartDP(e.layer.feature.properties.DISTNUM);
         updateBarChartSF1(e.layer.feature.properties.DISTNUM);
         updateBarChartChg(e.layer.feature.properties.DISTNUM);
-        document.getElementById("dpTag").innerHTML = "Differential Privacy - Population 18 Years and Over by Race - District "+e.layer.feature.properties.DISTNUM;
-        document.getElementById("sf1Tag").innerHTML = "SF1 - Population 18 Years and Over by Race - District "+e.layer.feature.properties.DISTNUM;
-        document.getElementById("chgTag").innerHTML = "Difference (DP - SF1) - Population 18 Years and Over by Race - District "+e.layer.feature.properties.DISTNUM;
+        document.getElementById("dpTag").innerHTML = "Differential Privacy - Population Race - District "+e.layer.feature.properties.DISTNUM;
+        document.getElementById("sf1Tag").innerHTML = "SF1 - Population by Race - District "+e.layer.feature.properties.DISTNUM;
+        document.getElementById("chgTag").innerHTML = "Difference (DP - SF1) - Population by Race - District "+e.layer.feature.properties.DISTNUM;
       });
 
     }   
@@ -5282,9 +5282,9 @@ var nest = d3.nest().key(function(d) {return d.dist; }).entries(datasf1); //cons
         updateBarChartDP(e.layer.feature.properties.DISTNUM);
         updateBarChartSF1(e.layer.feature.properties.DISTNUM);
         updateBarChartChg(e.layer.feature.properties.DISTNUM);
-        document.getElementById("dpTag").innerHTML = "Differential Privacy - Population 18 Years and Over by Race - District "+e.layer.feature.properties.DISTNUM;
-        document.getElementById("sf1Tag").innerHTML = "SF1 - Population 18 Years and Over by Race - District "+e.layer.feature.properties.DISTNUM;
-        document.getElementById("chgTag").innerHTML = "Difference (DP - SF1) - Population 18 Years and Over by Race - District "+e.layer.feature.properties.DISTNUM;
+        document.getElementById("dpTag").innerHTML = "Differential Privacy - Population by Race - District "+e.layer.feature.properties.DISTNUM;
+        document.getElementById("sf1Tag").innerHTML = "SF1 - Population by Race - District "+e.layer.feature.properties.DISTNUM;
+        document.getElementById("chgTag").innerHTML = "Difference (DP - SF1) - Population by Race - District "+e.layer.feature.properties.DISTNUM;
       });
       
     }   
@@ -5366,9 +5366,9 @@ $("#raceEthnicity").val("tp");
         updateBarChartDP(e.layer.feature.properties.DISTNUM);
         updateBarChartSF1(e.layer.feature.properties.DISTNUM);
         updateBarChartChg(e.layer.feature.properties.DISTNUM);
-        document.getElementById("dpTag").innerHTML = "Differential Privacy - Population 18 Years and Over by Race - District "+e.layer.feature.properties.DISTNUM;
-        document.getElementById("sf1Tag").innerHTML = "SF1 - Population 18 Years and Over by Race - District "+e.layer.feature.properties.DISTNUM;
-        document.getElementById("chgTag").innerHTML = "Difference (DP - SF1) - Population 18 Years and Over by Race - District "+e.layer.feature.properties.DISTNUM;
+        document.getElementById("dpTag").innerHTML = "Differential Privacy - Population by Race - District "+e.layer.feature.properties.DISTNUM;
+        document.getElementById("sf1Tag").innerHTML = "SF1 - Population by Race - District "+e.layer.feature.properties.DISTNUM;
+        document.getElementById("chgTag").innerHTML = "Difference (DP - SF1) - Population by Race - District "+e.layer.feature.properties.DISTNUM;
       });
 
     }  
